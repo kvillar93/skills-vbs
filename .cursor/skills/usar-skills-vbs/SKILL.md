@@ -2,7 +2,7 @@
 name: usar-skills-vbs
 description: >-
   Cómo usar el repo kvillar93/skills-vbs: inventario de skills generales
-  (SSH/servidores), por proyecto (hermes-vbs, chatwoot-vbs), extras de
+  (SSH/servidores), por proyecto (hermes-vbs, chatwoot-vbs, odoo), extras de
   Addy Osmani, instalación en PCs locales, Cloud Agents y repos que ya
   tienen skills. Úsala al clonar el repo, al cambiar de PC, o cuando
   pregunten cómo se instalan o se eligen estas skills.
@@ -68,6 +68,8 @@ Actualizar extras más adelante (sí puede sobrescribir las de Addy, no las tuya
 | SSH, Odoo, clientes, 1Password, Cloud SSH | `ssh-servidores` |
 | Servidor Hermes en EC2 | `hermes-setup-and-maintenance` (carpeta `hermes-vbs`) |
 | Chatwoot VBS | `chatwoot-vbs` |
+| Workspace Odoo (rules, iconos, restaurar en otra PC) | `odoo` (carpeta `proyectos/odoo`) |
+| Icono de módulo Odoo 16 | `odoo-module-icon` |
 | TDD, review, spec, frontend… | extras Addy, si están instaladas en ese repo |
 | Cambiar/crear/subir skills | `mantener-skills-vbs` |
 

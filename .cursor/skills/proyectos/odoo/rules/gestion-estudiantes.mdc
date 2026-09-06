@@ -1,0 +1,28 @@
+---
+description: Memoria y convenciones del módulo gestion_estudiantes (addonsEP16)
+globs: custom/addons/addonsEP16/gestion_estudiantes/**/*
+alwaysApply: false
+---
+
+# gestion_estudiantes — contexto rápido
+
+## Antes de tocar código
+- Leer el archivo base completo (modelo, vista o wizard de referencia).
+- Herencias XML: solo selectores por `@name`, `@id` o estructura estable (ver `persona-context.mdc`).
+
+## Archivos de reportes
+- Cuotas: `wizards/reportes_cuotas_wizard.py`, `reports/reportes_cuotas.xml`
+- Matrícula: `wizards/reporte_matricula_wizard.py`, `reports/reporte_matricula.xml`
+- Menú herramientas: `menu_gestion_herramientas` en `views/menu_views.xml`
+
+## Errores frecuentes ya resueltos
+- `create() missing vals_list` → falta `@api.model_create_multi` (revisar también `gestion_estudiantes_pos`).
+- Orden inválido en `search` → no usar `factura_id.invoice_date`; ordenar con `.sorted()` en Python.
+- PDF wizard → `report_action(self, data=data)`; variables del dict van directo a la plantilla QWeb.
+- **No** `display_notification` en acciones Python → retornar `True`; usar `message_post` o `UserError` para feedback.
+
+## Clasificación reporte matrícula
+- Inscritos: activo + factura posted del año escolar de referencia.
+- Pendientes: activo sin factura de ese año.
+- Retirados: inactivo.
+- Familiares: columnas por `gestion.tipo.familiar` (Nombre, Cédula, Teléfono, Correo).

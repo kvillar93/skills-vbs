@@ -1,0 +1,37 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Estructura del Proyecto Odoo 16
+
+## Versión y Requisitos
+- Versión de Odoo: 16.0
+- Python: 3.8 - 3.10
+- PostgreSQL: 12.0 o superior
+
+## Archivos de Configuración Principales
+- [odoo-server.conf](mdc:odoo-server/odoo-server.conf) - Configuración principal del servidor Odoo 16
+- [odoo-server_cc.conf](mdc:odoo-server/odoo-server_cc.conf) - Configuración específica para el entorno CC
+- [odoo-server_bmcargo.conf](mdc:odoo-server/odoo-server_bmcargo.conf) - Configuración específica para el entorno BMCargo
+
+## Directorios Importantes
+- `odoo-server/addons/` - Directorio donde se almacenan los módulos personalizados
+- `odoo-server/odoo/` - Código fuente principal de Odoo 16
+- `custom/` - Módulos personalizados adicionales
+
+## Scripts y Utilidades
+- [start.sh](mdc:odoo-server/start.sh) - Script para iniciar el servidor Odoo
+- [requirements.txt](mdc:odoo-server/requirements.txt) - Dependencias de Python necesarias para Odoo 16
+
+## Documentación
+- [README.md](mdc:odoo-server/README.md) - Documentación principal del proyecto
+- [CONTRIBUTING.md](mdc:odoo-server/CONTRIBUTING.md) - Guía para contribuir al proyecto
+- [SECURITY.md](mdc:odoo-server/SECURITY.md) - Políticas de seguridad
+
+## Notas Importantes
+1. Los módulos personalizados deben ser compatibles con Odoo 16
+2. Las configuraciones específicas del entorno se manejan en archivos .conf separados
+3. El archivo `odoo-bin` es el punto de entrada principal para ejecutar Odoo 16
+4. Asegurarse de que todas las dependencias sean compatibles con la versión 16
+5. No intentes hacer un restart del servidor, esto lo hago yo al final de cuaquier request.

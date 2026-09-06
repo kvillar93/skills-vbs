@@ -1,0 +1,16 @@
+---
+description: Iconos de módulos Odoo 16 — generar con IA, nunca con código
+alwaysApply: true
+---
+
+# Iconos de módulos Odoo
+
+Al crear un módulo nuevo o si piden un icono:
+
+1. Generar el gráfico con **IA** (`GenerateImage`). Está **prohibido** dibujarlo con SVG, Pillow, Inkscape o paths a mano.
+2. Referencias: `purchase` y `stock` para **radio de esquina** (modesto, no squircle) y **brillo sutil**; IoT solo como pista de bisel, no copiar su destello fuerte.
+3. Color de baldosa **según el dominio**. Brillo: filete fino arriba/izquierda, no halo blanco. Sombra larga del glifo a **45° abajo-izquierda** (nunca a la derecha).
+4. Esquinas del PNG **transparentes** (alpha 0), nunca negro. Tras generar, aplicar la máscara alpha de un icono oficial y verificar píxeles de esquina.
+5. Guardar en `nombre_modulo/static/description/icon.png` a **140×140**.
+6. Si el módulo está en `addonsEP16` / `addonsCE16` / `addonsCE14`, copiar el mismo archivo.
+7. Instrucciones completas: `.cursor/skills/odoo-module-icon/SKILL.md`

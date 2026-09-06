@@ -1,0 +1,14 @@
+---
+description: Tras editar una skill VBS, publicar el cambio en kvillar93/skills-vbs.
+alwaysApply: true
+---
+
+# Publicar skills-vbs
+
+Si en esta sesión editas un `SKILL.md` o un script de skill bajo `skills-vbs` o `~/.cursor/skills` (generales, proyectos, usar/mantener):
+
+1. No dejes el cambio solo en disco.
+2. En el clone `skills-vbs` ejecuta `.\scripts\publicar-cambios.ps1` con un mensaje `skill: ...` en español, o `git add` + commit + `git push origin HEAD`.
+3. Las junctions de `instalar.ps1` hacen que editar `~/.cursor/skills` sea editar el repo.
+
+No commitees PEM, tokens, `.env` ni `diag-out`.

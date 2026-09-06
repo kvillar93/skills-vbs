@@ -1,0 +1,27 @@
+---
+description: Cómo conectar por SSH en local, Cursor web y Cloud Agents (1Password SSH-Infra).
+alwaysApply: true
+---
+
+# SSH de servidores (todas las sesiones)
+
+Si hay que entrar a un servidor o cliente (Hermes, Chatwoot, VBS, Lifter, Odoo, TSHEILA, Ashton, Umbra, etc.), usa la skill `ssh-servidores`. Inventario en `hosts.md`.
+
+## Nube (Cloud Agent o Cursor web)
+
+Señales: existe `OP_SERVICE_ACCOUNT_TOKEN` o `/run/cursor/api.sock`.
+
+1. `bash ~/.cursor/skills/ssh-servidores/scripts/bootstrap_cloud.sh`
+2. `python3 ~/.cursor/skills/ssh-servidores/scripts/ssh_via_op.py <alias> -- whoami`
+3. **No** uses `ssh <alias>`: esa VM no tiene `~/.ssh/config` ni PEM.
+4. No pidas ni pegues el token, PEM ni `.ppk`.
+
+Si falta la skill: Settings → Agents → Context and Tools → **Sync Skills for Cloud Agents** (o Customize → Skills). Si falta el token: Runtime Secret `OP_SERVICE_ACCOUNT_TOKEN`.
+
+## Local (Windows)
+
+`ssh -o BatchMode=yes <alias> "whoami && hostname"` con el `config` de `~/.ssh`. Hosts `password`: Tabby, no automatizar.
+
+## Ambos
+
+Nunca imprimas secretos. SQL/Odoo por stdin. No hagas `grep` del log completo de Odoo (puede pesar decenas de GB).

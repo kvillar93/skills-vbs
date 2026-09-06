@@ -1,0 +1,40 @@
+---
+description: Enruta a using-agent-skills si la tarea es compleja o el usuario pide la regla/skill más adecuada
+alwaysApply: true
+---
+
+# Using Agent Skills (user rule)
+
+No cargues el pack entero. Esta rule solo **decide cuándo** abrir el mapa.
+
+## Cuándo SÍ enrutar
+
+Hazlo si se cumple **una** de estas:
+
+1. **Tarea compleja:** feature o cambio de varias piezas, spec/plan, bug no trivial, review de merge, seguridad, performance, deploy, o requisitos ambiguos.
+2. **El usuario lo pide:** “qué skill usar”, “verifica la regla más adecuada”, “usa using-agent-skills”, “enruta la skill”, o equivalente.
+
+Entonces:
+
+1. Lee `using-agent-skills` (proyecto: `.cursor/skills/using-agent-skills/SKILL.md`; si no, `extras/addyosmani/using-agent-skills` o `~/.cursor/skills`).
+2. Elige **una** skill de fase (o la secuencia mínima) y **síguela**. No improvises el flujo.
+3. Si enlaza `references/`, ábrela solo cuando haga falta.
+
+## Cuándo NO
+
+- Cambio puntual (typo, un campo, un xpath, un copy).
+- Pregunta corta o consulta de un archivo.
+- Ya estás dentro de una skill y no cambió la fase.
+
+## Ejemplo
+
+```
+Usuario: “agrega facturación de matrícula con cuotas y reporte”
+→ Compleja → using-agent-skills → spec-driven-development (luego plan/build)
+
+Usuario: “verifica la regla más adecuada para este review”
+→ Pedido explícito → using-agent-skills → code-review-and-quality
+
+Usuario: “cambia el string del botón a Guardar”
+→ No enrutar
+```

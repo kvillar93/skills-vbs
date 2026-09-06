@@ -42,10 +42,9 @@ Set-Junction (Join-Path $DestRoot "chatwoot-vbs") (Join-Path $SkillsSrc "proyect
 Set-Junction (Join-Path $DestRoot "odoo") (Join-Path $SkillsSrc "proyectos\odoo\odoo")
 Set-Junction (Join-Path $DestRoot "odoo-module-icon") (Join-Path $SkillsSrc "proyectos\odoo\odoo-module-icon")
 
-$ruleSrc = Join-Path $Repo ".cursor\rules\skills-vbs-sync.mdc"
-if (Test-Path $ruleSrc) {
-    Copy-Item $ruleSrc (Join-Path $RulesDest "skills-vbs-sync.mdc") -Force
-    Write-Host "Regla de usuario: skills-vbs-sync.mdc"
+Get-ChildItem (Join-Path $Repo ".cursor\rules\*.mdc") -ErrorAction SilentlyContinue | ForEach-Object {
+    Copy-Item $_.FullName (Join-Path $RulesDest $_.Name) -Force
+    Write-Host "Regla de usuario: $($_.Name)"
 }
 
 Write-Host ""

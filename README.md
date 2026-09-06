@@ -18,6 +18,8 @@ Repo: https://github.com/kvillar93/skills-vbs
     odoo/                    # Workspace Odoo: rules + odoo-module-icon
   extras/
     addyosmani/              # 25 skills de ingeniería (opt-in por repo)
+.cursor/rules/
+  using-agent-skills.mdc     # user-rule: enrutar si la tarea es compleja
 ```
 
 ## En otro PC

@@ -28,5 +28,9 @@ link "$DEST/hermes-setup-and-maintenance" "$SRC/proyectos/hermes-vbs/hermes-setu
 link "$DEST/chatwoot-vbs" "$SRC/proyectos/chatwoot-vbs/chatwoot-vbs"
 link "$DEST/odoo" "$SRC/proyectos/odoo/odoo"
 link "$DEST/odoo-module-icon" "$SRC/proyectos/odoo/odoo-module-icon"
-cp -f "$REPO/.cursor/rules/skills-vbs-sync.mdc" "$RULES/skills-vbs-sync.mdc"
+shopt -s nullglob
+for rule in "$REPO/.cursor/rules/"*.mdc; do
+  cp -f "$rule" "$RULES/$(basename "$rule")"
+  echo "Regla de usuario: $(basename "$rule")"
+done
 echo "Listo. git pull en $REPO."

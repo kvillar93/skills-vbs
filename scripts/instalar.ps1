@@ -1,5 +1,5 @@
 # Instala skills VBS en este Windows: junctions a este clone.
-# No instala extras Addy (eso es por repo de codigo).
+# No instala extras (addyosmani ni ui-ux-pro-max); eso es por repo de codigo.
 $ErrorActionPreference = "Stop"
 $Repo = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $SkillsSrc = Join-Path $Repo ".cursor\skills"

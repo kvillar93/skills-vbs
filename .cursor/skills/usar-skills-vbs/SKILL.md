@@ -3,9 +3,9 @@ name: usar-skills-vbs
 description: >-
   Cómo usar el repo kvillar93/skills-vbs: inventario de skills generales
   (SSH/servidores), por proyecto (hermes-vbs, chatwoot-vbs, odoo), extras de
-  Addy Osmani, instalación en PCs locales, Cloud Agents y repos que ya
-  tienen skills. Úsala al clonar el repo, al cambiar de PC, o cuando
-  pregunten cómo se instalan o se eligen estas skills.
+  Addy Osmani y UI/UX Pro Max, instalación en PCs locales, Cloud Agents y
+  repos que ya tienen skills. Úsala al clonar el repo, al cambiar de PC, o
+  cuando pregunten cómo se instalan o se eligen estas skills.
 ---
 
 # Usar el repo skills-vbs
@@ -19,7 +19,8 @@ En disco (esta máquina): `C:\Users\kevin\Projects\skills-vbs` (u otro clone).
 |---|---|---|
 | `.cursor/skills/generales/` | Conexión y servers (`ssh-servidores`) | Usuario: `~/.cursor/skills/generales/` |
 | `.cursor/skills/proyectos/<nombre>/` | Skill de un producto (Hermes, Chatwoot, …) | Usuario: `~/.cursor/skills/proyectos/` |
-| `.cursor/skills/extras/addyosmani/` | Skills de [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | **No** se instalan en el usuario. Solo en un repo de código, a pedido |
+| `.cursor/skills/extras/addyosmani/` | Skills de [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) (25; sin altas nuevas tras el pull de 2026-09-09) | **No** se instalan en el usuario. Solo en un repo de código, a pedido |
+| `.cursor/skills/extras/ui-ux-pro-max/` | Pack [ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) (`ui-ux-pro-max`, `design`, `design-system`, `ui-styling`, `brand`, `banner-design`, `slides`) | **No** se instalan en el usuario. Solo en un repo de código, a pedido |
 | `.cursor/skills/usar-skills-vbs` | Esta guía | Usuario |
 | `.cursor/skills/mantener-skills-vbs` | Updates, carpetas nuevas, push automático | Usuario |
 
@@ -43,22 +44,23 @@ Opcional: Settings → Agents → Context and Tools → **Sync Skills for Cloud 
 2. En el **repo de trabajo** (Hermes, Chatwoot, etc.) commitea las skills que ese proyecto necesita bajo `.cursor/skills/` (el Cloud Agent clona el repo).
 3. O en el snapshot/install: `git clone` de `skills-vbs` y copia `generales` + el proyecto.
 
-No copies `extras/addyosmani` a un Cloud Agent a menos que el repo de código las pida: son 25 skills de ingeniería, no de infra VBS.
+No copies `extras/addyosmani` ni `extras/ui-ux-pro-max` a un Cloud Agent a menos que el repo de código las pida: son extras de ingeniería/UI, no de infra VBS.
 
-## Añadir extras Addy a un repo que YA tiene skills
+## Añadir extras a un repo que YA tiene skills
 
-Desde este clone, sin pisar skills locales:
+Desde este clone, sin pisar skills locales (VBS u otras):
 
 ```powershell
-.\scripts\instalar-extras-en-repo.ps1 -Destino "C:\Users\kevin\Projects\mi-app"
+.\scripts\instalar-extras-en-repo.ps1 -Destino "C:\Users\kevin\Projects\mi-app" -SkipExisting
 ```
 
-Copia `extras/addyosmani/*` → `mi-app/.cursor/skills/` con `-SkipExisting`. Añade una regla corta `addyosmani-extras.mdc`. Las skills VBS del repo destino no se tocan.
+Copia los directorios de `extras/addyosmani/*` y `extras/ui-ux-pro-max/*` (excepto los que empiezan por `_`) → `mi-app/.cursor/skills/`. `-SkipExisting` (por defecto) no sobrescribe. Nunca toca `generales`, `proyectos`, `usar-skills-vbs` ni `mantener-skills-vbs`. Añade una regla corta `skills-vbs-extras.mdc`.
 
-Actualizar extras más adelante (sí puede sobrescribir las de Addy, no las tuyas):
+Actualizar extras más adelante (sí puede sobrescribir las extras, no las VBS):
 
 ```powershell
 .\scripts\instalar-extras-en-repo.ps1 -Destino "C:\ruta\mi-app" -ActualizarAddy
+.\scripts\instalar-extras-en-repo.ps1 -Destino "C:\ruta\mi-app" -ActualizarExtras
 ```
 
 ## Qué skill abrir
@@ -71,6 +73,7 @@ Actualizar extras más adelante (sí puede sobrescribir las de Addy, no las tuya
 | Workspace Odoo (rules, iconos, restaurar en otra PC) | `odoo` (carpeta `proyectos/odoo`) |
 | Icono de módulo Odoo 16 | `odoo-module-icon` |
 | TDD, review, spec, frontend… | extras Addy, si están instaladas en ese repo |
+| UI/UX, design system, brand, slides | extras `ui-ux-pro-max`, si están instaladas en ese repo |
 | Cambiar/crear/subir skills | `mantener-skills-vbs` |
 
 ## Reglas

@@ -39,6 +39,7 @@ Set-Junction (Join-Path $DestRoot "mantener-skills-vbs") (Join-Path $SkillsSrc "
 Set-Junction (Join-Path $DestRoot "ssh-servidores") (Join-Path $SkillsSrc "generales\ssh-servidores")
 Set-Junction (Join-Path $DestRoot "hermes-setup-and-maintenance") (Join-Path $SkillsSrc "proyectos\hermes-vbs\hermes-setup-and-maintenance")
 Set-Junction (Join-Path $DestRoot "chatwoot-vbs") (Join-Path $SkillsSrc "proyectos\chatwoot-vbs\chatwoot-vbs")
+Set-Junction (Join-Path $DestRoot "trek-vbs") (Join-Path $SkillsSrc "proyectos\trek-vbs\trek-vbs")
 
 $ruleSrc = Join-Path $Repo ".cursor\rules\skills-vbs-sync.mdc"
 if (Test-Path $ruleSrc) {

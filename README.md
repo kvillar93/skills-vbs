@@ -15,6 +15,7 @@ Repo: https://github.com/kvillar93/skills-vbs
   proyectos/
     hermes-vbs/              # Hermes en EC2
     chatwoot-vbs/            # Chatwoot VBS
+    trek-vbs/                # Host Docker + TREK (trek.vbsolutions.app)
   extras/
     addyosmani/              # 25 skills de ingeniería (opt-in por repo)
 ```

@@ -60,6 +60,7 @@ Los hosts `password` tienen ítem Login con el alias canónico (`aurora`, `backu
 | `umbratest` | UMBRATEST | `umbratest.vbsolutions.app` | ubuntu | 22 | publicKey | `vbsolutions` |
 | `vbs-hermes` | VBS HERMES | `44.217.48.118` | ubuntu | 22 | publicKey | `vbsolutions` |
 | `vbs-hermes-chatwoot` | VBS HERMES-CHATWOOT | `54.144.100.40` | ubuntu | 22 | publicKey | `vbsolutions` |
+| `vbs-trek` | VBS TREK | `3.215.189.236` | ubuntu | 22 | publicKey | `vbsolutions` |
 | `vbsolutions` | VBSOLUTIONS | `vbsolutions.app` | ubuntu | 22 | publicKey | `vbsolutions` |
 | `visionary` | VISIONARY | `vs.vbsolutions.app` | ubuntu | 22 | publicKey | `vbsolutions` |
 | `vvl` | VVL | `vvl.vbsolutions.app` | ubuntu | 22 | publicKey | `vbsolutions` |

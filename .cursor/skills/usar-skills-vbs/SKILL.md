@@ -68,6 +68,7 @@ Actualizar extras más adelante (sí puede sobrescribir las de Addy, no las tuya
 | SSH, Odoo, clientes, 1Password, Cloud SSH | `ssh-servidores` |
 | Servidor Hermes en EC2 | `hermes-setup-and-maintenance` (carpeta `hermes-vbs`) |
 | Chatwoot VBS | `chatwoot-vbs` |
+| Host TREK / trek.vbsolutions.app / addons Gemini | `trek-vbs` |
 | TDD, review, spec, frontend… | extras Addy, si están instaladas en ese repo |
 | Cambiar/crear/subir skills | `mantener-skills-vbs` |
 

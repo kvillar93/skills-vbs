@@ -107,5 +107,5 @@ Sideload:
 - Nunca imprimas PEM, `ENCRYPTION_KEY`, `ADMIN_PASSWORD`, `GEMINI_API_KEY` ni `.env`.
 - No abras el puerto 3000 en el host.
 - DNS de `*.vbsolutions.app` está en Route53 (NS `awsdns-*`).
-- Let's Encrypt: UFW ya abre 80/443. El Security Group de la EC2 (`sg-02d5ca406483902f3`, instancia `i-077b278642a662981`, us-east-1) **aún no** deja entrar 80/443 desde Internet (timeout). Hay que añadir inbound TCP 80 y 443 (0.0.0.0/0) y luego `sudo docker restart nginx-proxy-acme`.
+- Let's Encrypt: UFW y el Security Group (`sg-02d5ca406483902f3`, instancia `i-077b278642a662981`, us-east-1) abren TCP 80/443. Cert de `trek.vbsolutions.app` emitido 2026-09-10. Si ACME falla: `sudo docker restart nginx-proxy-acme` y `sudo docker logs --tail 80 nginx-proxy-acme`.
 - Plugin `gemini-connector` ya está sideload y **active**. Falta pegar `GEMINI_API_KEY` en Admin → Plugins → instance settings. Zip en `/opt/apps/trek/plugin-gemini-connector.zip`.

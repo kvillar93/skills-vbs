@@ -16,6 +16,7 @@ Repo: https://github.com/kvillar93/skills-vbs
     hermes-vbs/              # Hermes en EC2
     chatwoot-vbs/            # Chatwoot VBS
     odoo/                    # Workspace Odoo: rules + odoo-module-icon
+    trek-vbs/                # Host Docker + TREK (trek.vbsolutions.app)
   extras/
     addyosmani/              # 25 skills de ingeniería (opt-in por repo)
     ui-ux-pro-max/           # pack UI/UX (opt-in por repo; cada carpeta tiene SKILL.md)

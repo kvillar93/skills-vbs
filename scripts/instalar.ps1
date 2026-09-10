@@ -41,6 +41,7 @@ Set-Junction (Join-Path $DestRoot "hermes-setup-and-maintenance") (Join-Path $Sk
 Set-Junction (Join-Path $DestRoot "chatwoot-vbs") (Join-Path $SkillsSrc "proyectos\chatwoot-vbs\chatwoot-vbs")
 Set-Junction (Join-Path $DestRoot "odoo") (Join-Path $SkillsSrc "proyectos\odoo\odoo")
 Set-Junction (Join-Path $DestRoot "odoo-module-icon") (Join-Path $SkillsSrc "proyectos\odoo\odoo-module-icon")
+Set-Junction (Join-Path $DestRoot "trek-vbs") (Join-Path $SkillsSrc "proyectos\trek-vbs\trek-vbs")
 
 Get-ChildItem (Join-Path $Repo ".cursor\rules\*.mdc") -ErrorAction SilentlyContinue | ForEach-Object {
     Copy-Item $_.FullName (Join-Path $RulesDest $_.Name) -Force

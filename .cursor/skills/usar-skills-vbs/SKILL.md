@@ -72,6 +72,7 @@ Actualizar extras más adelante (sí puede sobrescribir las extras, no las VBS):
 | Chatwoot VBS | `chatwoot-vbs` |
 | Workspace Odoo (rules, iconos, restaurar en otra PC) | `odoo` (carpeta `proyectos/odoo`) |
 | Icono de módulo Odoo 16 | `odoo-module-icon` |
+| Host TREK / trek.vbsolutions.app / addons Gemini | `trek-vbs` |
 | TDD, review, spec, frontend… | extras Addy, si están instaladas en ese repo |
 | UI/UX, design system, brand, slides | extras `ui-ux-pro-max`, si están instaladas en ese repo |
 | Cambiar/crear/subir skills | `mantener-skills-vbs` |

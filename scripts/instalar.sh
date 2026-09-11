@@ -28,6 +28,7 @@ link "$DEST/hermes-setup-and-maintenance" "$SRC/proyectos/hermes-vbs/hermes-setu
 link "$DEST/chatwoot-vbs" "$SRC/proyectos/chatwoot-vbs/chatwoot-vbs"
 link "$DEST/odoo" "$SRC/proyectos/odoo/odoo"
 link "$DEST/odoo-module-icon" "$SRC/proyectos/odoo/odoo-module-icon"
+link "$DEST/ssh-infra" "$SRC/proyectos/odoo/ssh-infra"
 shopt -s nullglob
 for rule in "$REPO/.cursor/rules/"*.mdc; do
   cp -f "$rule" "$RULES/$(basename "$rule")"

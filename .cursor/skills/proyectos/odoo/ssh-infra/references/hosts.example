@@ -1,0 +1,12 @@
+# Copiar a ~/.ssh/infra/hosts.env (permiso 600).
+# Formato: alias=usuario@host
+# El alias debe coincidir con el documento en SSH-Infra (nombre del .pem).
+# Inventario completo de clientes: skill ssh-servidores → hosts.md
+#
+# vbsolutions=ubuntu@vbsolutions.app
+# OdooEPX=ubuntu@IP.O.HOST
+# fpaxv3=ubuntu@IP.O.HOST
+# umbrafinance=ubuntu@IP.O.HOST
+# odoo_xolver=ubuntu@IP.O.HOST
+# vvl=ubuntu@IP.O.HOST
+# externo=ubuntu@IP.O.HOST

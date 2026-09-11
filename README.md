@@ -15,7 +15,7 @@ Repo: https://github.com/kvillar93/skills-vbs
   proyectos/
     hermes-vbs/              # Hermes en EC2
     chatwoot-vbs/            # Chatwoot VBS
-    odoo/                    # Workspace Odoo: rules + odoo-module-icon
+    odoo/                    # Workspace Odoo: rules, iconos, ssh-infra
   extras/
     addyosmani/              # 25 skills de ingeniería (opt-in por repo)
 .cursor/rules/

@@ -21,6 +21,7 @@ Inventario: [hosts.md](hosts.md). Vault: 1Password `SSH-Infra` ([guía](docs/GUI
 |---|---|---|
 | Hay `OP_SERVICE_ACCOUNT_TOKEN` o `/run/cursor/api.sock` | **Nube** | `bootstrap_cloud.sh` + `ssh_via_op.py` |
 | Windows con `~/.ssh/config` | **Local** | `ssh <alias>` (Agent 1Password o PEM) |
+| Linux y el agente 1Password no ofrece identidades | **Local Linux** | skill `ssh-infra` (`~/.ssh/infra/*.pem`; las claves no van al repo) |
 
 ## Cloud Agent / Cursor web (obligatorio)
 
@@ -68,7 +69,7 @@ Aliases frecuentes: `vbsolutions`, `vbs-hermes`, `vbs-hermes-chatwoot`, `ashton-
 ## Credenciales
 
 1. Local + app 1Password desbloqueada: SSH Agent.
-2. Local, app cerrada: `~/.ssh/<pem>`.
+2. Local, app cerrada: `~/.ssh/<pem>` (Windows) o `~/.ssh/infra/` vía `ssh-infra` (Linux). Las PEM **no** se commitean.
 3. Nube: documentos PEM en vault `SSH-Infra` vía `op` + service account.
 4. Hosts `password`: Tabby o terminal interactivo. **No automatizar.**
 

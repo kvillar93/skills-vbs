@@ -18,5 +18,6 @@ Antes de trabajo técnico no trivial:
 |-------|--------|
 | Icono de módulo Odoo (`icon.png`, `static/description`) | `odoo-module-icon` |
 | Crear o actualizar skills / sync del pack | `maintaining-agent-skills` |
+| SSH a servers con `.pem` de la bóveda SSH-Infra | `ssh-infra` |
 
 Al crear una skill nueva: seguir `maintaining-agent-skills` (registro en `.cursor/skills/.local-skills` + layout del pack). El backup git visible está en https://github.com/kvillar93/skills-vbs (`proyectos/odoo`).

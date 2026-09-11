@@ -70,6 +70,7 @@ Actualizar extras más adelante (sí puede sobrescribir las de Addy, no las tuya
 | Chatwoot VBS | `chatwoot-vbs` |
 | Workspace Odoo (rules, iconos, restaurar en otra PC) | `odoo` (carpeta `proyectos/odoo`) |
 | Icono de módulo Odoo 16 | `odoo-module-icon` |
+| PEM de SSH-Infra en Linux (`~/.ssh/infra`, nunca en git) | `ssh-infra` |
 | TDD, review, spec, frontend… | extras Addy, si están instaladas en ese repo |
 | Cambiar/crear/subir skills | `mantener-skills-vbs` |
 

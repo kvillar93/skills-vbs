@@ -21,6 +21,7 @@ ya viven en `.cursor/skills/extras/addyosmani` (opt-in por repo).
 |------|-----------|
 | `odoo/SKILL.md` | Esta guía |
 | `odoo-module-icon/SKILL.md` | Iconos de módulos Odoo 16 (IA, no SVG a mano) |
+| `ssh-infra/SKILL.md` | PEM de SSH-Infra en `~/.ssh/infra` (Linux; no en git) |
 | `rules/*.mdc` | Rules del proyecto Odoo (backup) |
 
 Rules incluidas:
@@ -44,6 +45,9 @@ DEST="/odoo/.cursor"   # o la raíz del workspace Odoo
 mkdir -p "$DEST/rules" "$DEST/skills"
 cp -a "$SRC/rules/"*.mdc "$DEST/rules/"
 cp -a "$SRC/odoo-module-icon" "$DEST/skills/odoo-module-icon"
+cp -a "$SRC/ssh-infra" "$DEST/skills/ssh-infra"
+# registrar en .local-skills si no está
+grep -qx ssh-infra "$DEST/skills/.local-skills" 2>/dev/null || echo ssh-infra >> "$DEST/skills/.local-skills"
 ```
 
 En Windows, ajusta `$SRC` al clone (`$env:USERPROFILE\Projects\skills-vbs\...`).
@@ -59,7 +63,7 @@ Extras Addy en el repo Odoo (no pisa skills locales):
 
 ## Actualizar este backup
 
-Si cambian rules o `odoo-module-icon` en `/odoo`:
+Si cambian rules, `odoo-module-icon` o `ssh-infra` en `/odoo`:
 
 1. Copiar los archivos a `.cursor/skills/proyectos/odoo/` en este repo.
 2. Publicar:
@@ -70,4 +74,5 @@ Si cambian rules o `odoo-module-icon` en `/odoo`:
 
 No commitear `.cursor` dentro de addonsEP16 ni otros repos de addons.
 
-Inventario SSH: skill `ssh-servidores`.
+Inventario SSH (hosts Tabby): skill `ssh-servidores`.  
+PEM en Linux (documentos 1Password): skill `ssh-infra`.

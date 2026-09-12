@@ -1,5 +1,5 @@
 # Instala skills VBS en este Windows: junctions a este clone.
-# No instala extras Addy (eso es por repo de codigo).
+# No instala extras (addyosmani ni ui-ux-pro-max); eso es por repo de codigo.
 $ErrorActionPreference = "Stop"
 $Repo = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $SkillsSrc = Join-Path $Repo ".cursor\skills"
@@ -41,7 +41,11 @@ Set-Junction (Join-Path $DestRoot "hermes-setup-and-maintenance") (Join-Path $Sk
 Set-Junction (Join-Path $DestRoot "chatwoot-vbs") (Join-Path $SkillsSrc "proyectos\chatwoot-vbs\chatwoot-vbs")
 Set-Junction (Join-Path $DestRoot "odoo") (Join-Path $SkillsSrc "proyectos\odoo\odoo")
 Set-Junction (Join-Path $DestRoot "odoo-module-icon") (Join-Path $SkillsSrc "proyectos\odoo\odoo-module-icon")
+<<<<<<< HEAD
 Set-Junction (Join-Path $DestRoot "ssh-infra") (Join-Path $SkillsSrc "proyectos\odoo\ssh-infra")
+=======
+Set-Junction (Join-Path $DestRoot "trek-vbs") (Join-Path $SkillsSrc "proyectos\trek-vbs\trek-vbs")
+>>>>>>> 6a221f587f893d069505ec2403548aaa051ac215
 
 Get-ChildItem (Join-Path $Repo ".cursor\rules\*.mdc") -ErrorAction SilentlyContinue | ForEach-Object {
     Copy-Item $_.FullName (Join-Path $RulesDest $_.Name) -Force

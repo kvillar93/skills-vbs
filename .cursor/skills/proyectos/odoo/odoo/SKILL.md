@@ -24,6 +24,8 @@ ya viven en `.cursor/skills/extras/addyosmani` (opt-in por repo).
 | `ssh-infra/SKILL.md` | PEM de SSH-Infra en `~/.ssh/infra` (Linux; no en git) |
 | `rules/*.mdc` | Rules del proyecto Odoo (backup) |
 
+Manuales PDF de uso (JOSEDA, Abitare, JM): skill `manual-pdf-cliente` en `generales/`.
+
 Rules incluidas:
 
 - `agent-skills.mdc`

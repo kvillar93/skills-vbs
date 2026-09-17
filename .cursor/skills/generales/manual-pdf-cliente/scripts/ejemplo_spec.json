@@ -1,0 +1,36 @@
+{
+  "cliente": "JOSEDA",
+  "url": "https://joseda.vbsolutions.app",
+  "titulo": "Gestión de cobros",
+  "subtitulo": "y planes de pago",
+  "descripcion": "Cómo avisar al comprador de una cuota y enviar el estado de pagos con un clic.",
+  "para_quien": "Para el equipo de cobros y administración",
+  "modulo": "rental_gestion_cobros  ·  Odoo 16  ·  Ejemplo de skill",
+  "pie": "JOSEDA  ·  joseda.vbsolutions.app  ·  Guía para el equipo",
+  "paleta": "joseda",
+  "salida": "Manual_Ejemplo_Skill.pdf",
+  "pdf_titulo": "Manual de ejemplo — JOSEDA",
+  "autor": "JOSEDA / VBSOLUTIONS",
+  "paginas": [
+    {
+      "tipo": "resumen",
+      "titulo": "Qué puede hacer en Odoo",
+      "intro": "Estas funciones viven en Properties. Sirven para hablarle al comprador a tiempo.",
+      "tarjetas": [
+        {"titulo": "Gestión de cobro", "desc": "Desde una cuota abierta: un clic avisa que esa cuota está pendiente."},
+        {"titulo": "Aviso interno", "desc": "Odoo puede avisarle a cobros unos días antes. Viene apagado."}
+      ]
+    },
+    {
+      "tipo": "pasos",
+      "titulo": "1. Quién puede usarlo",
+      "intro": "Hace falta el grupo Gestión de Cobros.",
+      "pasos": [
+        "Abra https://joseda.vbsolutions.app/ e inicie sesión.",
+        "Vaya a Ajustes → Usuarios y asigne el grupo."
+      ],
+      "nota_titulo": "Si no ve los botones",
+      "nota": "Casi siempre falta el grupo o no recargó la página."
+    }
+  ]
+}

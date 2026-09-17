@@ -12,15 +12,12 @@ Repo: https://github.com/kvillar93/skills-vbs
   mantener-skills-vbs/       # updates, carpetas nuevas, push
   generales/
     ssh-servidores/          # SSH, Odoo, 1Password, Cloud Agents
+    manual-pdf-cliente/      # Manuales PDF de uso para el cliente
   proyectos/
     hermes-vbs/              # Hermes en EC2
     chatwoot-vbs/            # Chatwoot VBS
-<<<<<<< HEAD
     odoo/                    # Workspace Odoo: rules, iconos, ssh-infra
-=======
-    odoo/                    # Workspace Odoo: rules + odoo-module-icon
     trek-vbs/                # Host Docker + TREK (trek.vbsolutions.app)
->>>>>>> 6a221f587f893d069505ec2403548aaa051ac215
   extras/
     addyosmani/              # 25 skills de ingeniería (opt-in por repo)
     ui-ux-pro-max/           # pack UI/UX (opt-in por repo; cada carpeta tiene SKILL.md)

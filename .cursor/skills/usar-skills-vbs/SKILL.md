@@ -17,7 +17,7 @@ En disco (esta máquina): `C:\Users\kevin\Projects\skills-vbs` (u otro clone).
 
 | Carpeta | Qué hay | Dónde vive en Cursor |
 |---|---|---|
-| `.cursor/skills/generales/` | Conexión y servers (`ssh-servidores`) | Usuario: `~/.cursor/skills/generales/` |
+| `.cursor/skills/generales/` | Conexión y servers (`ssh-servidores`); manuales PDF (`manual-pdf-cliente`) | Usuario: `~/.cursor/skills/generales/` |
 | `.cursor/skills/proyectos/<nombre>/` | Skill de un producto (Hermes, Chatwoot, …) | Usuario: `~/.cursor/skills/proyectos/` |
 | `.cursor/skills/extras/addyosmani/` | Skills de [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) (25; sin altas nuevas tras el pull de 2026-09-09) | **No** se instalan en el usuario. Solo en un repo de código, a pedido |
 | `.cursor/skills/extras/ui-ux-pro-max/` | Pack [ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) (`ui-ux-pro-max`, `design`, `design-system`, `ui-styling`, `brand`, `banner-design`, `slides`) | **No** se instalan en el usuario. Solo en un repo de código, a pedido |
@@ -72,11 +72,9 @@ Actualizar extras más adelante (sí puede sobrescribir las extras, no las VBS):
 | Chatwoot VBS | `chatwoot-vbs` |
 | Workspace Odoo (rules, iconos, restaurar en otra PC) | `odoo` (carpeta `proyectos/odoo`) |
 | Icono de módulo Odoo 16 | `odoo-module-icon` |
-<<<<<<< HEAD
 | PEM de SSH-Infra en Linux (`~/.ssh/infra`, nunca en git) | `ssh-infra` |
-=======
 | Host TREK / trek.vbsolutions.app / addons Gemini | `trek-vbs` |
->>>>>>> 6a221f587f893d069505ec2403548aaa051ac215
+| Manual PDF para el cliente (pasos, capturas) | `manual-pdf-cliente` |
 | TDD, review, spec, frontend… | extras Addy, si están instaladas en ese repo |
 | UI/UX, design system, brand, slides | extras `ui-ux-pro-max`, si están instaladas en ese repo |
 | Cambiar/crear/subir skills | `mantener-skills-vbs` |

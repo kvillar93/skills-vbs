@@ -25,6 +25,7 @@ BookStack es imagen upstream `lscr.io/linuxserver/bookstack`. Las modificaciones
   themes/atlas/        # widget y POST /atlas/preguntar
   scripts/
   datos/               # volumen, token API, JSON
+  datos/ssh/           # PEM 600, SOLO el host (nunca montar en BookStack)
   datos/atlas/         # ajustes, ai-key, logs de cron, hashes de modulos
 ```
 
@@ -78,6 +79,13 @@ python3 /opt/apps/atlas/scripts/sembrar-flota.py --solo-version 16.0 --reset-est
 ## Biblioteca de modulos
 
 `scripts/analizar_modulo.py` + `recolectar.py --modo full|custom` publican fichas reutilizables en el estante `Modulos Odoo X.Y`. El cron mira cada hora quien toca (por defecto 1:00 / 24 h, un cliente a la vez). Calcula hash de custom y de personalizaciones en DB; si alguno cambio, recolecta ambas. Base/enterprise no se re-escanean.
+
+## Seguridad del host
+
+- PEM en `/opt/apps/atlas/datos/ssh/` (fuera del volumen `/config/atlas`).
+- `scripts/endurecer-atlas-host.sh` mueve claves, pone 600 a `credenciales.txt` y activa fail2ban `sshd`.
+- No toques MFA de BookStack (el admin lo configura en la UI).
+- No montes `datos/ssh` en el contenedor web.
 
 ## Reglas
 

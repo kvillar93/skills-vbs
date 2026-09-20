@@ -32,10 +32,17 @@ Red `proxy` + `VIRTUAL_HOST=atlas.vbsolutions.app`. No publicar 80/443 en el hos
 
 ## Recolectar y publicar
 
+En Odoo 16 los textos van en jsonb; `recolectar.py` usa `expr_texto()`. Si el JSON sale con `modulos_instalados=0`, no publiques: el SQL fallo.
+
+Calidad minima (igual que TSHEILA): inventario, customs, menus visibles, personalizaciones, runbook, y fichas de biblioteca con Python/XML. Detalle: `docs/PROCESO-DOCUMENTACION.md`.
+
 ```bash
-scp scripts/recolectar.py tsheila:/tmp/atlas-recolectar.py
-ssh tsheila "sudo python3 /tmp/atlas-recolectar.py --cliente tsheila --host-publico tsheila.lifterdo.com --salida /tmp/atlas-tsheila.json"
-python scripts/publicar.py --json datos/tsheila.json --base https://atlas.vbsolutions.app --token-id ... --token-secret ...
+# Desde Trek (preferido)
+ssh vbs-trek "python3 /opt/apps/atlas/scripts/cron-atlas.py --ahora --cliente tsheila"
+
+# A mano
+scp scripts/recolectar.py scripts/analizar_modulo.py tsheila:/tmp/
+ssh tsheila "sudo python3 /tmp/recolectar.py --cliente tsheila --host-publico tsheila.lifterdo.com --modo full --salida /tmp/atlas-tsheila.json"
 ```
 
 El token esta en `/opt/apps/atlas/datos/api-token.json`. No lo imprimas.
@@ -43,7 +50,7 @@ El token esta en `/opt/apps/atlas/datos/api-token.json`. No lo imprimas.
 ## Chat IA y ajustes
 
 `POST /atlas/preguntar` busca el libro del cliente **y solo** la biblioteca `Modulos Odoo {version}` de ese cliente.  
-Ajustes (admin): https://atlas.vbsolutions.app/atlas/ajustes — token AI, modelo, cron y log.  
+Ajustes (admin): Configuracion de BookStack → **Clientes Atlas**, o https://atlas.vbsolutions.app/atlas/ajustes — listado, alta, Revisar, token AI, cron y log.  
 La clave vive solo en el server (`/opt/apps/atlas/datos/atlas/ai-key` o `.env`). Nunca en git ni en el PC.
 
 ## Cliente → version → biblioteca
@@ -60,7 +67,13 @@ Al agregar un cliente: Atlas → Ajustes → Clientes (formulario). El cron reco
 
 Proceso completo (igual que TSHEILA), para el cron y para otra AI en Cursor: [docs/PROCESO-DOCUMENTACION.md](https://github.com/kvillar93/vbs-atlas/blob/cursor/atlas-bookstack-a569/docs/PROCESO-DOCUMENTACION.md) en el repo `vbs-atlas`.
 
-Sembrar flota: `scripts/descubrir-flota.py` (sonda SSH, no password) y en Trek `scripts/sembrar-flota.py datos/flota-descubierta.json`.
+Sembrar flota: `scripts/descubrir-flota.py` (sonda SSH, no password) y en Trek:
+
+```bash
+python3 /opt/apps/atlas/scripts/sembrar-flota.py /opt/apps/atlas/datos/atlas/flota-descubierta.json
+# Rehacer solo 16.0 (tras un fix de recolectar):
+python3 /opt/apps/atlas/scripts/sembrar-flota.py --solo-version 16.0 --reset-estado
+```
 
 ## Biblioteca de modulos
 

@@ -25,6 +25,7 @@ BookStack es imagen upstream `lscr.io/linuxserver/bookstack`. Las modificaciones
   themes/atlas/        # widget y POST /atlas/preguntar
   scripts/
   datos/               # volumen, token API, JSON
+  datos/atlas/         # ajustes, ai-key, logs de cron, hashes de modulos
 ```
 
 Red `proxy` + `VIRTUAL_HOST=atlas.vbsolutions.app`. No publicar 80/443 en el host.
@@ -39,9 +40,15 @@ python scripts/publicar.py --json datos/tsheila.json --base https://atlas.vbsolu
 
 El token esta en `/opt/apps/atlas/datos/api-token.json`. No lo imprimas.
 
-## Chat IA
+## Chat IA y ajustes
 
-`POST /atlas/preguntar` busca paginas del libro/estante abierto. Acepta texto, nota de voz e imagenes. La clave `GEMINI_API_KEY` vive solo en `/opt/apps/atlas/.env` del server (nunca en git ni en el PC). Tras cambiarla: `sudo docker compose up -d bookstack`. Para inyectarla: `python3 scripts/poner-gemini-stdin.py` leyendo la clave por stdin.
+`POST /atlas/preguntar` busca el libro abierto **y** la biblioteca `Modulos Odoo {version}`.  
+Ajustes (admin): https://atlas.vbsolutions.app/atlas/ajustes — token AI, modelo, cron y log.  
+La clave vive solo en el server (`/opt/apps/atlas/datos/atlas/ai-key` o `.env`). Nunca en git ni en el PC.
+
+## Biblioteca de modulos
+
+`scripts/analizar_modulo.py` + `recolectar.py --modo full|custom` publican fichas reutilizables en el estante `Modulos Odoo X.Y`. El cron (`scripts/cron-atlas.sh` cada 15 min, respeta el intervalo) solo relee `/odoo/custom/addons` si el hash cambio. Base/enterprise no se re-escanean.
 
 ## Reglas
 

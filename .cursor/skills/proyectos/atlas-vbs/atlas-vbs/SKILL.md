@@ -42,9 +42,21 @@ El token esta en `/opt/apps/atlas/datos/api-token.json`. No lo imprimas.
 
 ## Chat IA y ajustes
 
-`POST /atlas/preguntar` busca el libro abierto **y** la biblioteca `Modulos Odoo {version}`.  
+`POST /atlas/preguntar` busca el libro del cliente **y solo** la biblioteca `Modulos Odoo {version}` de ese cliente.  
 Ajustes (admin): https://atlas.vbsolutions.app/atlas/ajustes — token AI, modelo, cron y log.  
 La clave vive solo en el server (`/opt/apps/atlas/datos/atlas/ai-key` o `.env`). Nunca en git ni en el PC.
+
+## Cliente → version → biblioteca
+
+Un cliente = una version mayor de Odoo. El chat no mezcla 14.0 con 16.0.
+
+```
+Clientes / TSHEILA          tags: atlas-cliente, odoo-version=14.0, addons-repos=...
+Modulos Odoo 14.0 / Odoo 14.0   fichas reutilizables (sale, fleet_rental, ...)
+Modulos Odoo 16.0 / Odoo 16.0   otra biblioteca, otro repo (addonsEP16)
+```
+
+Al agregar un cliente: linea en Ajustes (`id|nombre|host|usuario|clave|ruta_custom|14.0|addonsEP14,custom`), recolectar en su host, publicar. El JSON trae `version_mayor` y `repos`; `publicar.py` etiqueta el libro.
 
 ## Biblioteca de modulos
 

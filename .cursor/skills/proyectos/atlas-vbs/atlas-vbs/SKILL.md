@@ -41,7 +41,7 @@ El token esta en `/opt/apps/atlas/datos/api-token.json`. No lo imprimas.
 
 ## Chat IA
 
-`POST /atlas/preguntar` busca paginas del estante/libro abierto. Si `GEMINI_API_KEY` esta vacia, responde con extractos. Para IA redactada, poner la clave en `/opt/apps/atlas/.env` y `docker compose up -d`.
+`POST /atlas/preguntar` busca paginas del libro/estante abierto. Acepta texto, nota de voz e imagenes. La clave `GEMINI_API_KEY` vive solo en `/opt/apps/atlas/.env` del server (nunca en git ni en el PC). Tras cambiarla: `sudo docker compose up -d bookstack`. Para inyectarla: `python3 scripts/poner-gemini-stdin.py` leyendo la clave por stdin.
 
 ## Reglas
 

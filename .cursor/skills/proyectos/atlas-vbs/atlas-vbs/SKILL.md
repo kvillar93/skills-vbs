@@ -56,7 +56,11 @@ Modulos Odoo 14.0 / Odoo 14.0   fichas reutilizables (sale, fleet_rental, ...)
 Modulos Odoo 16.0 / Odoo 16.0   otra biblioteca, otro repo (addonsEP16)
 ```
 
-Al agregar un cliente: linea en Ajustes (`id|nombre|host|usuario|clave|ruta_custom|14.0|addonsEP14,custom`), recolectar en su host, publicar. El JSON trae `version_mayor` y `repos`; `publicar.py` etiqueta el libro.
+Al agregar un cliente: Atlas → Ajustes → Clientes (formulario). El cron recolecta en su host y publica. El JSON trae `version_mayor` y `repos`; `publicar.py` etiqueta el libro.
+
+Proceso completo (igual que TSHEILA), para el cron y para otra AI en Cursor: [docs/PROCESO-DOCUMENTACION.md](https://github.com/kvillar93/vbs-atlas/blob/cursor/atlas-bookstack-a569/docs/PROCESO-DOCUMENTACION.md) en el repo `vbs-atlas`.
+
+Sembrar flota: `scripts/descubrir-flota.py` (sonda SSH, no password) y en Trek `scripts/sembrar-flota.py datos/flota-descubierta.json`.
 
 ## Biblioteca de modulos
 

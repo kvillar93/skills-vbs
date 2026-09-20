@@ -50,7 +50,7 @@ El token esta en `/opt/apps/atlas/datos/api-token.json`. No lo imprimas.
 ## Chat IA y ajustes
 
 `POST /atlas/preguntar` busca el libro del cliente **y solo** la biblioteca `Modulos Odoo {version}` de ese cliente.  
-Ajustes (admin): Configuracion de BookStack → **Clientes Atlas**, o https://atlas.vbsolutions.app/atlas/ajustes — listado, alta, Revisar, token AI, cron y log.  
+Ajustes (admin): Configuracion de BookStack → **Atlas**, o `/atlas/ajustes/ia` (AI), `/clientes` y `/cron`. Horario por defecto 1:00 cada 24 h; se puede cambiar por cliente.  
 La clave vive solo en el server (`/opt/apps/atlas/datos/atlas/ai-key` o `.env`). Nunca en git ni en el PC.
 
 ## Cliente → version → biblioteca
@@ -77,7 +77,7 @@ python3 /opt/apps/atlas/scripts/sembrar-flota.py --solo-version 16.0 --reset-est
 
 ## Biblioteca de modulos
 
-`scripts/analizar_modulo.py` + `recolectar.py --modo full|custom` publican fichas reutilizables en el estante `Modulos Odoo X.Y` (Python: funciones, docstring y codigo; XML: menus, botones y extracto de vista). El cron (`scripts/cron-atlas.sh` cada hora, intervalo por defecto 4 h) calcula en cada cliente el hash de `/odoo/custom/addons` y un hash rapido de personalizaciones en DB (campos/vistas/menus/modulos). Si alguno cambio, recolecta ambas. Base/enterprise no se re-escanean.
+`scripts/analizar_modulo.py` + `recolectar.py --modo full|custom` publican fichas reutilizables en el estante `Modulos Odoo X.Y`. El cron mira cada hora quien toca (por defecto 1:00 / 24 h, un cliente a la vez). Calcula hash de custom y de personalizaciones en DB; si alguno cambio, recolecta ambas. Base/enterprise no se re-escanean.
 
 ## Reglas
 

@@ -1,0 +1,291 @@
+---
+description: Experto Odoo 16, herencia XML, memoria del ecosistema gestion_estudiantes y patrones del workspace /odoo
+alwaysApply: true
+---
+
+You are an expert in Python, Odoo, and enterprise business application development.
+
+Key Principles
+- Write clear, technical responses with precise Odoo examples in Python, XML, and JSON.
+- Leverage Odoo’s built-in ORM, API decorators, and XML view inheritance to maximize modularity.
+- Prioritize readability and maintainability; follow PEP 8 for Python and adhere to Odoo’s best practices.
+- Use descriptive model, field, and function names; align with naming conventions in Odoo development.
+- Structure your module with a separation of concerns: models, views, controllers, data, and security configurations.
+
+Odoo/Python
+- Define models using Odoo’s ORM by inheriting from models.Model. Use API decorators such as @api.model, @api.multi, @api.depends, and @api.onchange.
+- Create and customize UI views using XML for forms, trees, kanban, calendar, and graph views. Use XML inheritance (via <xpath>, <field>, etc.) to extend or modify existing views.
+- Implement web controllers using the @http.route decorator to define HTTP endpoints and return JSON responses for APIs.
+- Organize your modules with a well-documented __manifest__.py file and a clear directory structure for models, views, controllers, data (XML/CSV), and static assets.
+- Leverage QWeb for dynamic HTML templating in reports and website pages.
+
+Error Handling and Validation
+- Use Odoo’s built-in exceptions (e.g., ValidationError, UserError) to communicate errors to end-users.
+- Enforce data integrity with model constraints using @api.constrains and implement robust validation logic.
+- Employ try-except blocks for error handling in business logic and controller operations.
+- Utilize Odoo’s logging system (e.g., _logger) to capture debug information and error details.
+- Write tests using Odoo’s testing framework to ensure your module’s reliability and maintainability.
+
+Dependencies
+- Odoo (ensure compatibility with the target version of the Odoo framework)
+- PostgreSQL (preferred database for advanced ORM operations)
+- Additional Python libraries (such as requests, lxml) where needed, ensuring proper integration with Odoo
+
+Odoo-Specific Guidelines
+- Use XML for defining UI elements and configuration files, ensuring compliance with Odoo’s schema and namespaces.
+- Define robust Access Control Lists (ACLs) and record rules in XML to secure module access; manage user permissions with security groups.
+- Enable internationalization (i18n) by marking translatable strings with _() and maintaining translation files.
+- Leverage automated actions, server actions, and scheduled actions (cron jobs) for background processing and workflow automation.
+- Extend or customize existing functionalities using Odoo’s inheritance mechanisms rather than modifying core code directly.
+- For JSON APIs, ensure proper data serialization, input validation, and error handling to maintain data integrity.
+
+Performance Optimization
+- Optimize ORM queries by using domain filters, context parameters, and computed fields wisely to reduce database load.
+- Utilize caching mechanisms within Odoo for static or rarely updated data to enhance performance.
+- Offload long-running or resource-intensive tasks to scheduled actions or asynchronous job queues where available.
+- Simplify XML view structures by leveraging inheritance to reduce redundancy and improve UI rendering efficiency.
+
+Key Conventions
+1. Follow Odoo’s "Convention Over Configuration" approach to minimize boilerplate code.
+2. Prioritize security at every layer by enforcing ACLs, record rules, and data validations.
+3. Maintain a modular project structure by clearly separating models, views, controllers, and business logic.
+4. Write comprehensive tests and maintain clear documentation for long-term module maintenance.
+5. Use Odoo’s built-in features and extend functionality through inheritance instead of altering core functionality.
+6. Whenever you inherit a view, please check/read the original view for the exact xpath, so it produces less errors.
+
+## Herencia de vistas XML (OBLIGATORIO)
+
+Al heredar vistas (`ir.ui.view`) y plantillas QWeb con `<xpath>`, **NUNCA** usar como selector atributos traducibles o de presentación. Odoo 16 rechaza selectores como `@string`, `@help`, `@placeholder`, `@title`, `@aria-label` y expresiones por texto visible (`normalize-space(.)`, `text()='...'`, `contains(., '...')`).
+
+**Selectores permitidos (prioridad):**
+1. `@name` en campos, botones, páginas, grupos con nombre y acciones (`name="action_..."`).
+2. `@id` o `@t-id` cuando exista en la vista base.
+3. `@type`, `@widget`, `@class` solo si es único y estable en esa vista.
+4. Posición estructural relativa a un ancla estable: `//field[@name='partner_id']`, `//button[@name='action_confirm']`, `//page[@name='invoice_tab']`.
+
+**Ejemplos incorrectos (prohibidos):**
+```xml
+<xpath expr="//group[@string='Detalle Proveedor']" position="inside"/>
+<xpath expr="//th[normalize-space(.)='Cantidad de Facturas']" position="after"/>
+```
+
+**Ejemplos correctos:**
+```xml
+<xpath expr="//field[@name='vendor_ids']/form/sheet/group/field[@name='vendor_id']" position="after"/>
+<xpath expr="//field[@name='partner_id']" position="after"/>
+<xpath expr="//span[@t-field='line.invoice_count']/ancestor::table[1]/thead/tr/th[2]" position="after"/>
+```
+
+**Flujo obligatorio antes de escribir un xpath:**
+1. Leer la vista base completa.
+2. Identificar un nodo ancla único por `@name` o `@id`.
+3. Verificar que el xpath no dependa de etiquetas en español/inglés ni de posiciones frágiles si hay alternativa por `@name`.
+4. Si la vista base no tiene ancla estable, agregar primero `name` al nodo en la vista origen (p. ej. `<group name="vendor_detail">`) y heredar sobre ese `name`.
+
+## Campos de texto largos en formularios (OBLIGATORIO)
+
+En vistas form, **nunca** envolver `Text` / `Html` / campos de texto multilínea con `<group string="…">` solo para rotular la sección: el layout de dos columnas deja el widget estrecho (~25% del ancho).
+
+**Prohibido:**
+```xml
+<group string="Descripción">
+    <field name="description" nolabel="1" placeholder="…"/>
+</group>
+```
+
+**Correcto:** usar `<separator string="…"/>` y el campo a ancho completo (hijo directo de `sheet`, o fuera de un `group` de dos columnas):
+```xml
+<separator string="Descripción"/>
+<field name="description" nolabel="1" placeholder="Qué hace esta skill…"/>
+<separator string="Instrucciones"/>
+<field name="instructions" nolabel="1" placeholder="Instrucciones detalladas…"/>
+```
+
+`group` sí puede usarse para campos cortos (Char, Many2one, Boolean, etc.) en columnas. Para etiquetas de sección sobre Text/Html: siempre `separator`.
+
+## Dominios y `company_id` en vistas (OBLIGATORIO)
+
+En Odoo 16, **no** referenciar `company_id` en dominios XML ni usar `check_company=True` en campos Many2one de formularios cuya vista padre restringe `company_id` al grupo `base.group_multi_company` (p. ej. `crm.team`, `res.partner` en ciertas vistas). Odoo valida la vista para **todos** los usuarios y falla con:
+
+`Field 'company_id' used in domain of field '...' is restricted to the group(s) base.group_multi_company`
+
+**Prohibido en esos formularios:**
+```xml
+<field name="warehouse_id" domain="[('company_id', '=', company_id)]"/>
+```
+```python
+warehouse_id = fields.Many2one('stock.warehouse', check_company=True)  # genera dominio con company_id
+```
+
+**Correcto:**
+- Campo Many2one **sin** `check_company=True` ni `domain` en XML que use `company_id`.
+- Validar coherencia de compañía con `@api.constrains` en Python.
+- Filtrar en código (`search`, `default_get`, `onchange`) usando `self.env.company` o `record.company_id` en backend, no en dominio de vista.
+- Si hace falta filtrar en UI para multi-compañía, colocar el campo junto a `company_id` **con** `groups="base.group_multi_company"` o usar un dominio calculado que no dependa de un campo invisible para usuarios mono-compañía.
+
+Refer to the official Odoo documentation for best practices in model design, view customization, controller development, and security considerations.
+
+# Guía de Módulos Personalizados para Odoo 16
+
+## Requisitos de Versión
+- Compatible con Odoo 16.0
+- Python 3.8 - 3.10
+- Dependencias actualizadas para v16
+
+## Estructura de un Módulo
+Cada módulo personalizado debe seguir esta estructura:
+```
+nombre_modulo/
+├── __init__.py
+├── __manifest__.py
+├── models/
+│   ├── __init__.py
+│   └── modelos.py
+├── views/
+│   └── vistas.xml
+├── security/
+│   └── ir.model.access.csv
+└── static/
+    └── description/
+        └── icon.png
+```
+
+## Archivos Principales
+- `__manifest__.py` - Define la configuración del módulo
+- `models/` - Contiene las definiciones de modelos y lógica de negocio
+- `views/` - Archivos XML con definiciones de vistas
+- `security/` - Permisos y reglas de acceso
+
+## Buenas Prácticas para Odoo 16
+1. Usar nombres descriptivos en español para los módulos
+2. Documentar todas las funciones y clases
+3. Seguir las convenciones de nomenclatura de Odoo 16
+4. Mantener la seguridad en mente al definir permisos
+5. Utilizar las nuevas características de Odoo 16 como:
+   - Nuevo sistema de permisos
+   - Mejoras en el ORM
+   - Nuevas APIs de frontend
+
+## Ejemplo de Manifest para Odoo 16
+```python
+{
+    'name': 'Nombre del Módulo',
+    'version': '16.0.1.0.0',
+    'category': 'Categoría',
+    'summary': 'Descripción corta',
+    'description': 'Descripción detallada',
+    'author': 'Tu Nombre',
+    'website': 'https://tusitio.com',
+    'depends': ['base'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/vistas.xml',
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'nombre_modulo/static/src/js/script.js',
+            'nombre_modulo/static/src/css/style.css',
+        ],
+    },
+    'installable': True,
+    'application': True,
+    'license': 'LGPL-3',
+}
+```
+
+## Notas de Compatibilidad
+1. Usar la nueva sintaxis de assets para recursos estáticos
+2. Implementar las nuevas APIs de frontend cuando sea posible
+3. Asegurar compatibilidad con el nuevo sistema de permisos
+4. Utilizar las nuevas características de seguridad de Odoo 16
+5. No crear el archivo de ir.mode.access si todos los modelos son heredados.
+
+## Documentation
+
+https://www.odoo.com/documentation/16.0/developer.html
+
+## Notas Importantes adicionales
+
+1. Siempre leer de manera completa los archivos de referencia, aunque el contexto sea largo. Leer todo el archivo base antes de heredar vistas o aplicar ajustes.
+2. Todos los strings visibles al usuario (etiquetas, mensajes, reportes) deben estar en **español**.
+3. No reiniciar el servidor Odoo; el usuario lo hace al final de cada request.
+4. Módulos personalizados principales en `custom/addons/addonsEP16/`.
+5. Icono de módulo: siempre `static/description/icon.png` 140×140 generado con IA (`GenerateImage` + iconos oficiales de referencia). Nunca dibujarlo con SVG/código. Seguir `.cursor/skills/odoo-module-icon/SKILL.md`.
+
+## ORM y Python — Odoo 16 (OBLIGATORIO)
+
+### `create()` y `@api.model_create_multi`
+- Todo override de `create` en modelos Odoo 16 **debe** usar `@api.model_create_multi` y recibir `vals_list`.
+- Si un módulo hereda el mismo modelo sin el decorador (p. ej. `gestion_estudiantes_pos`), rompe la cadena y aparece `create() missing 1 required positional argument: 'vals_list'`.
+
+### `search()` — orden válido
+- **No** usar en `order` campos related no almacenados (ej. `factura_id.invoice_date desc` en `gestion.cuota`).
+- Alternativas: buscar en el modelo destino (`account.move` con `invoice_date`), o ordenar en Python con `.sorted(key=..., reverse=True)[:1]`.
+
+### Reportes QWeb desde wizard
+- Patrón: `TransientModel` → `action_generar_reporte` → PDF: `env.ref('modulo.report_xml_id').report_action(self, data=data)`.
+- El dict `data` pasado a `report_action` queda disponible en la plantilla QWeb sin necesidad de `AbstractModel`, salvo lógica extra.
+- Excel: `xlsxwriter` + `io.BytesIO` + campos `archivo_excel` / `nombre_archivo` en el wizard.
+- Tablas anchas: `report.paperformat` en orientación **Landscape**.
+- Registrar ACL del wizard en `security/ir.model.access.csv`.
+
+### Acciones de botón en Python (OBLIGATORIO)
+- **No** usar `ir.actions.client` con `tag: 'display_notification'` en métodos de modelo/wizard: el frontend no refresca bien la vista.
+- Si la acción no debe abrir otra pantalla, retornar `True`.
+- Para feedback al usuario: `message_post()` en el registro, `UserError`/`ValidationError` si hay error, o `ir.actions.act_window` si debe navegar a otra vista.
+- Ejemplo correcto: `self.message_post(body='Operación completada'); return True`
+
+## Memoria del proyecto — Gestión de Estudiantes
+
+### Módulos del ecosistema
+| Módulo | Rol |
+|--------|-----|
+| `gestion_estudiantes` | Core: estudiantes, familiares, planes, cuotas, facturación, reportes |
+| `gestion_estudiantes_pos` | Herencias POS; verificar `create_multi` en herencias |
+| `gestion_estudiantes_externos` | Estudiantes externos; `activo` sincronizado con contacto |
+| `l10n_do_accounting` | Secuencias NCF pagos; no re-consumir si ya tiene número dedicado |
+| `dgii_reports` | Tasas de pago opcionales; evitar doble conversión al ajustar montos |
+
+### Modelos y relaciones clave
+- `gestion.estudiante`: `estado` (en_proceso/activo/inactivo), `familiares_relacionados_ids`, `responsable_facturacion_id`, `plan_pago_id`.
+- `gestion.familiar` + `gestion.tipo.familiar`: relación M2M; tipos en `data/familar_types.xml` (Padre, Madre, Tutor Legal, etc.).
+- `gestion.ano.escolar`: `_order = 'ano desc'`; usado en cuotas y clasificación de matrícula.
+- `gestion.cuota`: `ano_escolar_id`, `factura_id`, `estudiante_id`.
+- `account.move` (heredado): `estudiantes_facturados_ids`, `familiares_facturados_ids`, `es_factura_matriculacion`, `cuota_ids`.
+- `gestion.registro.pago.cuota`: pagos de cuotas; al volver a borrador/cancelar debe desvincular y cancelar `account.payment`.
+
+### Menús
+- **Herramientas**: `menu_gestion_herramientas` (`views/menu_views.xml`).
+- **Facturación estudiantes**: `menu_facturacion_estudiantes_root`.
+
+### Reportes existentes (patrón de referencia)
+- `wizards/reportes_cuotas_wizard.py` + `reports/reportes_cuotas.xml` — estado de cuenta, pagos, cuotas vencidas.
+- `wizards/reporte_matricula_wizard.py` + `reports/reporte_matricula.xml` — **Reporte de Matrícula y Reinscripción** (menú Herramientas).
+
+### Lógica — Reporte de Matrícula y Reinscripción
+| Sección | Criterio |
+|---------|----------|
+| **Inscritos** | `estado = activo` y factura `posted` (`out_invoice`) del año escolar de referencia |
+| **Pendientes** | `estado = activo` sin factura del año de referencia (solo años anteriores o sin factura) |
+| **Retirados** | `estado = inactivo` |
+| **Excluidos** | `en_proceso` no entra en inscritos ni pendientes |
+
+- **Año de referencia**: el de mayor `ano` en `gestion.ano.escolar`, o el seleccionado en el wizard (`ano_escolar_referencia_id`).
+- **Detección de año facturado**: `gestion.cuota.ano_escolar_id` en cuotas de facturas `posted`; fallback por `payment_reference` / `ref` de la factura.
+- **Última factura**: buscar en `account.move` por `estudiantes_facturados_ids`; ordenar con `.sorted()` en Python (no `order` por campo related).
+- **Familiares en reporte**: columnas horizontales al final, agrupadas por `tipo_familiar_id` (Nombre, Cédula, Teléfono, Correo por tipo).
+- **Formatos**: PDF (landscape) y Excel (una hoja por sección + Resumen).
+
+### Comportamientos ya implementados (no romper)
+- **Aplicar tasa al pago** (`registro_pago_cuota`): ajustar `debit`/`credit` en líneas del asiento; no escribir `amount_in_journal_currency` (evita doble conversión con `dgii_reports`).
+- **Borrador/cancelar registro de cuotas**: `_cancelar_y_desvincular_pago_contable()` — desconciliar, cancelar pago, `pago_id = False`.
+- **Secuencias de pago** (`l10n_do_accounting`): `_l10n_do_ya_tiene_secuencia_pago_dedicada()` antes de `next_by_id()`.
+
+### Actualización de módulos
+```bash
+-u gestion_estudiantes
+-u gestion_estudiantes_pos
+-u gestion_estudiantes_externos
+-u l10n_do_accounting
+```
+    

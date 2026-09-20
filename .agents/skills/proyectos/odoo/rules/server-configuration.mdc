@@ -1,0 +1,79 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Configuración del Servidor Odoo 16
+
+## Requisitos del Sistema
+- Python 3.8 - 3.10
+- PostgreSQL 12.0 o superior
+- Memoria RAM recomendada: 4GB mínimo
+- Espacio en disco: 20GB mínimo
+
+## Archivos de Configuración
+Los archivos de configuración principales son:
+- [odoo-server.conf](mdc:odoo-server/odoo-server.conf)
+- [odoo-server_cc.conf](mdc:odoo-server/odoo-server_cc.conf)
+- [odoo-server_bmcargo.conf](mdc:odoo-server/odoo-server_bmcargo.conf)
+
+## Parámetros Importantes para Odoo 16
+```ini
+[options]
+admin_passwd = contraseña_admin
+db_host = localhost
+db_port = 5432
+db_user = usuario_db
+db_password = contraseña_db
+addons_path = ./addons,./custom
+http_port = 8069
+workers = 4
+max_cron_threads = 2
+limit_memory_soft = 2684354560
+limit_memory_hard = 3221225472
+limit_time_cpu = 600
+limit_time_real = 1200
+```
+
+## Entornos
+1. **Desarrollo**
+   - Puerto: 8069
+   - Base de datos: odoo_dev
+   - Modo debug activado
+   - Workers: 2
+   - Log level: debug
+
+2. **Producción**
+   - Puerto: 8070
+   - Base de datos: odoo_prod
+   - Modo debug desactivado
+   - Workers: 4-8 (dependiendo de CPU)
+   - Log level: info
+
+## Seguridad
+1. Cambiar la contraseña de administrador por defecto
+2. Configurar SSL para conexiones seguras
+3. Limitar el acceso a la base de datos
+4. Mantener actualizado el sistema
+5. Configurar correctamente los workers y límites de memoria
+6. Implementar rate limiting para prevenir ataques
+
+## Inicio del Servidor
+Para iniciar el servidor Odoo 16:
+```bash
+./odoo-bin -c odoo-server.conf --workers=4 --max-cron-threads=2
+```
+
+## Monitoreo
+- Revisar logs en `/var/log/odoo/`
+- Monitorear uso de recursos
+- Verificar backups automáticos
+- Revisar el rendimiento de los workers
+- Monitorear el uso de memoria y CPU
+
+## Optimización
+1. Ajustar el número de workers según CPU disponible
+2. Configurar límites de memoria apropiados
+3. Optimizar la configuración de PostgreSQL
+4. Implementar caché cuando sea necesario
+5. Configurar correctamente los timeouts

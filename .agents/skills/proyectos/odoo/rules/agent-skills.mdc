@@ -1,0 +1,22 @@
+---
+description: Enruta el trabajo a skills de .cursor/skills (pack + locales)
+alwaysApply: true
+---
+
+# Agent Skills (este workspace)
+
+Antes de trabajo técnico no trivial:
+
+1. Enrutar con `.cursor/skills/using-agent-skills/SKILL.md`.
+2. Leer y seguir `.cursor/skills/<nombre>/SKILL.md`.
+3. Si la skill enlaza `../../references/…`, abrir `.cursor/references/`.
+4. No pegar skills enteras en rules. No editar skills de upstream a mano.
+
+## Skills locales (nunca pisar en un sync)
+
+| Tarea | Skill |
+|-------|--------|
+| Icono de módulo Odoo (`icon.png`, `static/description`) | `odoo-module-icon` |
+| Crear o actualizar skills / sync del pack | `maintaining-agent-skills` |
+
+Al crear una skill nueva: seguir `maintaining-agent-skills` (registro en `.cursor/skills/.local-skills` + layout del pack). El backup git visible está en https://github.com/kvillar93/skills-vbs (`proyectos/odoo`).

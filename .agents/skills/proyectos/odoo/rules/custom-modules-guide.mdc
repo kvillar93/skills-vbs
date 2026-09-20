@@ -1,0 +1,97 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Guía de Módulos Personalizados para Odoo 16
+
+## Requisitos de Versión
+- Compatible con Odoo 16.0
+- Python 3.8 - 3.10
+- Dependencias actualizadas para v16
+
+## Estructura de un Módulo
+Cada módulo personalizado debe seguir esta estructura:
+```
+nombre_modulo/
+├── __init__.py
+├── __manifest__.py
+├── models/
+│   ├── __init__.py
+│   └── modelos.py
+├── views/
+│   └── vistas.xml
+├── security/
+│   └── ir.model.access.csv
+└── static/
+    └── description/
+        └── icon.png    # 140×140, generado con IA (ver skill odoo-module-icon)
+```
+
+## Archivos Principales
+- `__manifest__.py` - Define la configuración del módulo
+- `models/` - Contiene las definiciones de modelos y lógica de negocio
+- `views/` - Archivos XML con definiciones de vistas
+- `security/` - Permisos y reglas de acceso
+
+## Buenas Prácticas para Odoo 16
+1. Usar nombres descriptivos en español para los módulos
+2. Documentar todas las funciones y clases
+3. Seguir las convenciones de nomenclatura de Odoo 16
+4. Mantener la seguridad en mente al definir permisos
+5. Utilizar las nuevas características de Odoo 16 como:
+   - Nuevo sistema de permisos
+   - Mejoras en el ORM
+   - Nuevas APIs de frontend
+
+## Ejemplo de Manifest para Odoo 16
+```python
+{
+    'name': 'Nombre del Módulo',
+    'version': '16.0.1.0.0',
+    'category': 'Categoría',
+    'summary': 'Descripción corta',
+    'description': 'Descripción detallada',
+    'author': 'Tu Nombre',
+    'website': 'https://tusitio.com',
+    'depends': ['base'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/vistas.xml',
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'nombre_modulo/static/src/js/script.js',
+            'nombre_modulo/static/src/css/style.css',
+        ],
+    },
+    'installable': True,
+    'application': True,
+    'license': 'LGPL-3',
+}
+```
+
+## Notas de Compatibilidad
+1. Usar la nueva sintaxis de assets para recursos estáticos
+2. Implementar las nuevas APIs de frontend cuando sea posible
+3. Asegurar compatibilidad con el nuevo sistema de permisos
+4. Utilizar las nuevas características de seguridad de Odoo 16
+5. No crear el archivo de ir.mode.access si todos los modelos son heredados.
+
+## Icono del módulo (OBLIGATORIO)
+
+Odoo 16 muestra `static/description/icon.png` (140×140). Community y Enterprise usan baldosa redondeada, degradado, glifo blanco y sombra corta.
+
+- **Generar siempre con IA** (`GenerateImage`), pasando de referencia los `icon.png` de `purchase`, `stock`, `account` y `account_asset`.
+- **Prohibido** inventar el icono con SVG/código/Pillow/FontAwesome.
+- Tras generar: redimensionar a 140×140 y copiar a EP16/CE16/CE14 si el módulo existe en varios árboles.
+- Skill: `.cursor/skills/odoo-module-icon/SKILL.md`
+
+## Documentation
+
+https://www.odoo.com/documentation/16.0/developer.html
+
+## Notas Importantes adicionales.
+
+1-Siempre leer de manera completa los archivos de referencia, aunque el contexto sea largo. Lo necesito que lo leas todo siempre para aplicar el ajuste de forma correcta, si es necesario.
+

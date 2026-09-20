@@ -1,0 +1,13 @@
+UI/UX Pro Max Skill
+Copyright (c) 2024 Next Level Builder
+
+Este pack es una copia de skills del repositorio upstream:
+
+  https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+
+Licencia MIT. El texto completo está en LICENSE (este directorio)
+y en docs/LICENSE-ui-ux-pro-max.txt del repo skills-vbs.
+
+VB Solutions no reclama autoría del upstream. Las modificaciones
+locales, si las hay, son solo de empaquetado (ORIGEN.md, NOTICE)
+para instalar el pack como extra de Cursor sin pisar skills VBS.

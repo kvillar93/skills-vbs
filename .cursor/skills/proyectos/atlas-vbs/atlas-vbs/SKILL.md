@@ -48,7 +48,7 @@ La clave vive solo en el server (`/opt/apps/atlas/datos/atlas/ai-key` o `.env`).
 
 ## Biblioteca de modulos
 
-`scripts/analizar_modulo.py` + `recolectar.py --modo full|custom` publican fichas reutilizables en el estante `Modulos Odoo X.Y`. El cron (`scripts/cron-atlas.sh` cada 15 min, respeta el intervalo) solo relee `/odoo/custom/addons` si el hash cambio. Base/enterprise no se re-escanean.
+`scripts/analizar_modulo.py` + `recolectar.py --modo full|custom` publican fichas reutilizables en el estante `Modulos Odoo X.Y` (Python: funciones, docstring y codigo; XML: menus, botones y extracto de vista). El cron (`scripts/cron-atlas.sh` cada hora, intervalo por defecto 4 h) solo relee `/odoo/custom/addons` si el hash cambio. Base/enterprise no se re-escanean.
 
 ## Reglas
 

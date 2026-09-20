@@ -77,7 +77,7 @@ python3 /opt/apps/atlas/scripts/sembrar-flota.py --solo-version 16.0 --reset-est
 
 ## Biblioteca de modulos
 
-`scripts/analizar_modulo.py` + `recolectar.py --modo full|custom` publican fichas reutilizables en el estante `Modulos Odoo X.Y` (Python: funciones, docstring y codigo; XML: menus, botones y extracto de vista). El cron (`scripts/cron-atlas.sh` cada hora, intervalo por defecto 4 h) solo relee `/odoo/custom/addons` si el hash cambio. Base/enterprise no se re-escanean.
+`scripts/analizar_modulo.py` + `recolectar.py --modo full|custom` publican fichas reutilizables en el estante `Modulos Odoo X.Y` (Python: funciones, docstring y codigo; XML: menus, botones y extracto de vista). El cron (`scripts/cron-atlas.sh` cada hora, intervalo por defecto 4 h) calcula en cada cliente el hash de `/odoo/custom/addons` y un hash rapido de personalizaciones en DB (campos/vistas/menus/modulos). Si alguno cambio, recolecta ambas. Base/enterprise no se re-escanean.
 
 ## Reglas
 

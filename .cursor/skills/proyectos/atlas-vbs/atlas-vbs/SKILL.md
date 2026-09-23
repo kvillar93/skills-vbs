@@ -87,7 +87,9 @@ python3 /opt/apps/atlas/scripts/biblioteca-fija.py --cliente ID_16
 
 Cada ficha trae Python, XML y el fuente completo de `static/` en el capitulo del modulo, una pagina `modulo / ruta` con el archivo entero. Si es largo, la pantalla lo pinta por tramos al bajar; no se parte el articulo. El cron no reescribe esas paginas. El chat busca el identificador exacto dentro del modulo y usa un extracto; el texto completo sigue en la base.
 
-El cron mira cada hora quien toca (por defecto 1:00 / 24 h, un cliente a la vez) y solo actualiza el libro del cliente y las fichas custom. Calcula hash de custom (incluye JS) y de personalizaciones en DB (campos, vistas, crons, informes, correo, companias, parametros). Si alguno cambio, recolecta en modo `custom`.
+El cron mira cada hora quien toca (por defecto 1:00 / 24 h, un cliente a la vez) y solo actualiza el libro del cliente y las fichas custom. Calcula hash de custom (incluye JS) y de personalizaciones en DB (campos, vistas, crons, informes, reglas de nomina, correo, companias, parametros). Si alguno cambio, recolecta en modo `custom`.
+
+En el libro del cliente, **Informes** lista cada `ir.actions.report` con el nombre del boton Imprimir y la pantalla. **Reglas de nomina** lista la definicion de `hr.salary.rule` (condicion y calculo), no recibos ni empleados. Si preguntan donde se imprime algo o por que un monto de nomina da un valor, el chat usa esas paginas.
 
 ## Seguridad del host
 
@@ -98,6 +100,6 @@ El cron mira cada hora quien toca (por defecto 1:00 / 24 h, un cliente a la vez)
 
 ## Reglas
 
-- Solo metadatos de Odoo. Nunca `res_partner`, facturas ni nominas.
+- Solo metadatos de Odoo. Nunca `res_partner`, facturas ni recibos de nomina. Las reglas salariales (`hr.salary.rule`) si van en la pagina Reglas de nomina.
 - No hagas `grep` del log completo de Odoo.
 - No commitees `.env`, PEM ni `datos/`.

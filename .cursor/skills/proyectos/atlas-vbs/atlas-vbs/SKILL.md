@@ -89,7 +89,7 @@ Cada ficha trae Python, XML y el fuente completo de `static/` en el capitulo del
 
 El cron mira cada hora quien toca (por defecto 1:00 / 24 h, un cliente a la vez) y solo actualiza el libro del cliente y las fichas custom. Calcula hash de custom (incluye JS) y de personalizaciones en DB (campos, vistas, crons, informes, reglas de nomina, correo, companias, parametros). Si alguno cambio, recolecta en modo `custom`.
 
-En el libro del cliente, **Informes** lista cada `ir.actions.report` con el nombre del boton Imprimir y la pantalla. **Reglas de nomina** lista las estructuras (`hr.payroll.structure`) y la definicion de `hr.salary.rule` (condicion y calculo), no recibos ni empleados. El hash de esas tablas obliga a republicar si alguien las edita en el servidor. Si preguntan donde se imprime algo o por que un monto de nomina da un valor, el chat abre esas paginas antes que el fuente del modulo.
+En el libro del cliente, **Informes** lista cada `ir.actions.report` con el nombre del boton Imprimir y la pantalla. **Reglas de nomina** solo incluye estructuras que ya tienen un volante (`hr.payslip`) o un procesamiento (`hr.payslip.run`), mas sus reglas. Si no hay ninguno, no se cargan reglas. El hash mira los ids de estructura usados: si aparece una nueva, el cron la anota como `estructura_nomina`. No se documentan recibos ni empleados. Si preguntan donde se imprime algo o por que un monto de nomina da un valor, el chat abre esas paginas antes que el fuente del modulo.
 
 ## Seguridad del host
 

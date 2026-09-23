@@ -78,9 +78,16 @@ python3 /opt/apps/atlas/scripts/sembrar-flota.py --solo-version 16.0 --reset-est
 
 ## Biblioteca de modulos
 
-`scripts/analizar_modulo.py` + `recolectar.py --modo full|custom` publican fichas reutilizables en el estante `Modulos Odoo X.Y`. Cada ficha incluye Python, XML y la interfaz en `static/` (JS, OWL, SCSS), necesario para el POS. El libro del cliente tambien documenta acciones planificadas, informes, plantillas y servidores de correo (sin contrasenas) y companias activas e inactivas con sus ajustes.
+La biblioteca fija de Odoo 14 y Odoo 16 (community y enterprise, **todos** los modulos que no estan en custom) se publica a mano y no se actualiza:
 
-El cron mira cada hora quien toca (por defecto 1:00 / 24 h, un cliente a la vez). Calcula hash de custom (incluye JS) y de personalizaciones en DB (campos, vistas, crons, informes, correo, companias, parametros). Si alguno cambio, recolecta. Si la biblioteca de esa version no tiene fichas `:v3`, el primer cliente de la version corre en `full` para reescribir los modulos; los siguientes van en `custom`.
+```bash
+python3 /opt/apps/atlas/scripts/biblioteca-fija.py --cliente ID_14
+python3 /opt/apps/atlas/scripts/biblioteca-fija.py --cliente ID_16
+```
+
+Cada ficha trae Python, XML y el fuente completo de `static/` en paginas `modulo / ruta` (hace falta para el POS). El cron no reescribe esas paginas.
+
+El cron mira cada hora quien toca (por defecto 1:00 / 24 h, un cliente a la vez) y solo actualiza el libro del cliente y las fichas custom. Calcula hash de custom (incluye JS) y de personalizaciones en DB (campos, vistas, crons, informes, correo, companias, parametros). Si alguno cambio, recolecta en modo `custom`.
 
 ## Seguridad del host
 

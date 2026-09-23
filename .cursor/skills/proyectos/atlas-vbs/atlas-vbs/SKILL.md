@@ -85,7 +85,7 @@ python3 /opt/apps/atlas/scripts/biblioteca-fija.py --cliente ID_14
 python3 /opt/apps/atlas/scripts/biblioteca-fija.py --cliente ID_16
 ```
 
-Cada ficha trae Python, XML y el fuente completo de `static/` en el capitulo `Fuente · modulo`, paginas `modulo / ruta`. Si el archivo es largo se parte por lineas (`· parte N`) para que BookStack pueda abrirlo. El cron no reescribe esas paginas. El chat busca el identificador exacto dentro del modulo, con un extracto, sin cargar el fuente entero.
+Cada ficha trae Python, XML y el fuente completo de `static/` en el capitulo `Fuente · modulo`, una pagina `modulo / ruta` con el archivo entero. Si es largo, la pantalla lo pinta por tramos al bajar; no se parte el articulo. El cron no reescribe esas paginas. El chat busca el identificador exacto dentro del modulo y usa un extracto; el texto completo sigue en la base.
 
 El cron mira cada hora quien toca (por defecto 1:00 / 24 h, un cliente a la vez) y solo actualiza el libro del cliente y las fichas custom. Calcula hash de custom (incluye JS) y de personalizaciones en DB (campos, vistas, crons, informes, correo, companias, parametros). Si alguno cambio, recolecta en modo `custom`.
 

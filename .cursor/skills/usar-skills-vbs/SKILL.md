@@ -71,6 +71,7 @@ Actualizar extras más adelante (sí puede sobrescribir las extras, no las VBS):
 | Servidor Hermes en EC2 | `hermes-setup-and-maintenance` (carpeta `hermes-vbs`) |
 | Chatwoot VBS | `chatwoot-vbs` |
 | Workspace Odoo (rules, iconos, restaurar en otra PC) | `odoo` (carpeta `proyectos/odoo`) |
+| Facturas en borrador de Lifter (confirmar y enviar por correo, día 2) | `facturas-borrador-lifter` |
 | Icono de módulo Odoo 16 | `odoo-module-icon` |
 | PEM de SSH-Infra en Linux (`~/.ssh/infra`, nunca en git) | `ssh-infra` |
 | Host TREK / trek.vbsolutions.app / addons Gemini | `trek-vbs` |

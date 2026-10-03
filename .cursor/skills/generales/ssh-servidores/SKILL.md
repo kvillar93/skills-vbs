@@ -6,7 +6,8 @@ description: >-
   usa esta skill. Local: ssh <alias> o ~/.ssh. Nube: bootstrap_cloud.sh +
   ssh_via_op.py / conectar.py con OP_SERVICE_ACCOUNT_TOKEN (vault 1Password
   SSH-Infra). Nunca pegues PEM ni el token. Incluye quoting de PowerShell y
-  logs enormes de Odoo.
+  logs enormes de Odoo. Para reiniciar Odoo usa el alias restart_odoo
+  de ~/.bashrc (bash interactivo, en dos pasos); no uses systemctl restart a secas.
 ---
 
 # SSH a servidores (local y Cloud Agents)
@@ -85,6 +86,7 @@ Nunca: pegar PEM, `.ppk`, contraseñas, `config.yaml` de Tabby ni el token. Si a
 - No uses Read/Glob sobre UNC remotas (`\\host\odoo\...`). Lee con `ssh` / `ssh_via_op` + `sudo cat`.
 - `/etc/odoo-server.conf` pide sudo. Filtra `passwd|password|secret`.
 - **Nunca** `grep` el log completo de Odoo. En TSHEILA llegó a 34G. Primero `sudo ls -lh`; luego `sudo tail -c 2M ... | grep -a`.
+- **Reiniciar Odoo:** alias `restart_odoo` de `~/.bashrc`. Procedimiento en [Reiniciar Odoo](#reiniciar-odoo). No uses `systemctl restart odoo-server` por tu cuenta.
 
 ## Desde PowerShell (solo local Windows)
 
@@ -106,6 +108,31 @@ Python a `odoo-bin shell`: stdin. Flags: `--no-http --workers=0 --max-cron-threa
 Conf típico Lifter/TSHEILA: `/etc/odoo-server.conf`, servicio `odoo-server`, user `odoo`, addons `/odoo/odoo-server`, `/odoo/enterprise/addons`, `/odoo/custom/addons/addonsEP14`. DB suele llamarse como el cliente (`tsheila`). `list_db = False` no impide `\l` por stdin.
 
 En Odoo 14 no asumas columnas `modules` ni `serialization_field_id` en `ir_model_fields`. Un campo ahi **no implica** columna SQL. En nómina, `False.month` falla; usa `employee.first_contract_date or contract.date_start`.
+
+## Reiniciar Odoo
+
+En los Ubuntu de los clientes, el usuario `ubuntu` define en `~/.bashrc` el alias `restart_odoo`:
+
+```
+alias restart_odoo='sudo systemctl stop odoo-server && sudo pkill -f odoo && sleep 3 && sudo systemctl start odoo-server && sudo systemctl status odoo-server --no-pager'
+```
+
+Cuando haya que reiniciar Odoo, usa **ese alias**. Para el servicio, mata procesos que hayan quedado vivos y muestra el estado. No lances `systemctl restart odoo-server` por tu cuenta.
+
+El alias solo existe en un bash interactivo: `~/.bashrc` hace `return` si la sesión no es interactiva. Además, `pkill -f odoo` mata cualquier proceso cuya línea de comando contenga `odoo`, incluido el shell del reinicio si el `ssh` lleva esa palabra. El reinicio va en **dos pasos**. El segundo no menciona `odoo` ni en la ruta ni en los argumentos:
+
+```powershell
+ssh -o BatchMode=yes <alias> "printf '%s\n' 'shopt -s expand_aliases' 'restart_odoo' > /tmp/reiniciar.sh"
+ssh -o BatchMode=yes <alias> "bash -i /tmp/reiniciar.sh"
+```
+
+En Cloud Agent, los mismos dos comandos vía `ssh_via_op.py <alias> -- ...` (no `ssh <alias>`).
+
+No pegues el script por stdin desde PowerShell: el here-string llega con CRLF y bash busca `restart_odoo\r`.
+
+`bash -i` sin TTY avisa `cannot set terminal process group` y `no job control`. Es normal; el alias igual corre. Después confirma `systemctl is-active odoo-server` (debe quedar `active`).
+
+Si `grep restart_odoo ~/.bashrc` no devuelve el alias en ese host, no inventes el `pkill`. Diló y espera indicación.
 
 ## Claves y vault
 

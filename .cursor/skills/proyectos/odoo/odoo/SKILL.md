@@ -22,6 +22,7 @@ ya viven en `.cursor/skills/extras/addyosmani` (opt-in por repo).
 | `odoo/SKILL.md` | Esta guía |
 | `odoo-module-icon/SKILL.md` | Iconos de módulos Odoo 16 (IA, no SVG a mano) |
 | `facturas-borrador-lifter/SKILL.md` | Confirmar y enviar por correo las facturas de cliente en borrador de Lifter |
+| `clonar-ec2-odoo/SKILL.md` | Clonar una EC2 de Odoo: IP elastica, DNS y SSL nuevo |
 | `ssh-infra/SKILL.md` | PEM de SSH-Infra en `~/.ssh/infra` (Linux; no en git) |
 | `rules/*.mdc` | Rules del proyecto Odoo (backup) |
 

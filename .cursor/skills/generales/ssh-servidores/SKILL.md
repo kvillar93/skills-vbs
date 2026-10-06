@@ -2,7 +2,7 @@
 name: ssh-servidores
 description: >-
   Conecta a servidores SSH (VBSOLUTIONS, Hermes, Lifter, Odoo, Ashton, Umbra,
-  TSHEILA, clientes). En CUALQUIER sesión — local, Cursor web o Cloud Agent —
+  TSHEILA, BMCargo/bmcvmod, clientes). En CUALQUIER sesión — local, Cursor web o Cloud Agent —
   usa esta skill. Local: ssh <alias> o ~/.ssh. Nube: bootstrap_cloud.sh +
   ssh_via_op.py / conectar.py con OP_SERVICE_ACCOUNT_TOKEN (vault 1Password
   SSH-Infra). Nunca pegues PEM ni el token. Incluye quoting de PowerShell y
@@ -80,7 +80,7 @@ Nunca: pegar PEM, `.ppk`, contraseñas, `config.yaml` de Tabby ni el token. Si a
 
 - Preferir este SSH frente al MCP de Tabby. Tabby solo si SSH falla o el usuario lo pide.
 - `BatchMode=yes` en clave publica.
-- `bmcvmod` / `bmcvmod-test`: PEM no convertida (passphrase).
+- `bmcvmod`: `ssh bmcvmod` con `~/.ssh/private_odoo`. Ver [bmcvmod (BMCargo)](#bmcvmod-bmcargo).
 - Antes de borrar datos, tocar firewall o editar `.env`: pedir confirmación.
 - **Windows PowerShell:** las comillas de `ssh ... "psql -c \"SELECT ...\""` se rompen. En Cloud Agent (Linux) no aplica ese truco; usa el wrapper y stdin.
 - No uses Read/Glob sobre UNC remotas (`\\host\odoo\...`). Lee con `ssh` / `ssh_via_op` + `sudo cat`.
@@ -134,9 +134,28 @@ No pegues el script por stdin desde PowerShell: el here-string llega con CRLF y 
 
 Si `grep restart_odoo ~/.bashrc` no devuelve el alias en ese host, no inventes el `pkill`. Diló y espera indicación.
 
+## bmcvmod (BMCargo)
+
+Local, verificado con `whoami` y `hostname`:
+
+```powershell
+ssh -o BatchMode=yes bmcvmod "whoami && hostname"
+```
+
+| | |
+|---|---|
+| Alias | `bmcvmod` |
+| Host | `34.66.100.94` |
+| Usuario | `kvillar` |
+| Puerto | 22 |
+| SO | Ubuntu 20.04.6 LTS |
+| Clave | `C:/Users/kevin/.ssh/private_odoo` |
+
+`bmcvmod-test` usa la misma PEM y el usuario `kvillar` en `34.57.162.99`. En la prueba de octubre 2026 el puerto 22 no contestó. La passphrase del `.ppk` original no se escribe en esta skill. En Cloud Agent hace falta el documento `private_odoo` en el vault `SSH-Infra`; hoy la PEM está solo en este PC.
+
 ## Claves y vault
 
-PEM locales: `C:/Users/kevin/.ssh/` (`vbsolutions`, `odoo_xolver`, `externo`, `OdooEPX`, `fpaxv3`, `umbrafinance`, `vvl`).
+PEM locales: `C:/Users/kevin/.ssh/` (`vbsolutions`, `odoo_xolver`, `externo`, `OdooEPX`, `fpaxv3`, `umbrafinance`, `vvl`, `private_odoo`).
 En 1Password son **documentos** con el mismo título (la plantilla SSH Key de la CLI no guardaba la clave). Drive no se toca.
 
 Reimportar Tabby (solo local):
@@ -146,4 +165,4 @@ python -m pip install --user puttykeys pyyaml
 python ~/.cursor/skills/ssh-servidores/scripts/importar_tabby.py
 ```
 
-`private_odoo.ppk` (bmcvmod): no convertir sin passphrase del usuario; no la guardes en la skill.
+`private_odoo` (bmcvmod) ya está en `~/.ssh/private_odoo`. Si se reimporta Tabby y el `.ppk` sigue cifrado, el importador conserva esa PEM y no pide la passphrase otra vez. No copies la passphrase a la skill.

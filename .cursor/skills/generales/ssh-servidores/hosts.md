@@ -87,8 +87,8 @@ Los hosts `password` tienen ítem Login con el alias canónico (`aurora`, `backu
 | `stockalu` | STOCKALU | `stockalu.lifterdo.com` | ubuntu | 22 | publicKey | `externo` |
 | `tsheila` | TSHEILA | `tsheila.lifterdo.com` | ubuntu | 22 | publicKey | `odoo_xolver` |
 | `xolver` | XOLVER | `erp.xolver.com` | ubuntu | 4525 | publicKey | `odoo_xolver` |
-| `bmcvmod` | bmcvmod | `34.66.100.94` | kvillar | 22 | publicKey | `NO CONVERTIDA` |
-| `bmcvmod-test` | bmcvmod test | `34.57.162.99` | kvillar | 22 | publicKey | `NO CONVERTIDA` |
+| `bmcvmod` | bmcvmod | `34.66.100.94` | kvillar | 22 | publicKey | `private_odoo` |
+| `bmcvmod-test` | bmcvmod test | `34.57.162.99` | kvillar | 22 | publicKey | `private_odoo` |
 | `epx` | EPX | `50.19.192.35` | ubuntu | 22 | publicKey | `OdooEPX` |
 | `florespax-shinhyo` | Florespax Shinhyo | `florespax.com` | ubuntu | 22 | publicKey | `fpaxv3` |
 | `infracero` | INFRACERO | `3.218.206.53` | ubuntu | 22 | publicKey | `vbsolutions` |

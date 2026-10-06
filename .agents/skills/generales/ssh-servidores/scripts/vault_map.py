@@ -22,6 +22,7 @@ NOMBRES_PEM = (
     "umbrafinance",
     "vbsolutions",
     "vvl",
+    "private_odoo",
 )
 
 # alias canónico -> título del Login en el vault

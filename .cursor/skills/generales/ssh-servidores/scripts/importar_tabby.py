@@ -186,6 +186,12 @@ def convert_keys() -> dict[str, str]:
 
         enc = ppk_encryption(src_path)
         if enc not in {"none", "null"}:
+            if dest.is_file() and dest.stat().st_size > 200:
+                header = dest.read_text(encoding="ascii", errors="replace").splitlines()[:1]
+                if header and "BEGIN" in header[0] and "PRIVATE KEY" in header[0]:
+                    converted[key] = str(dest)
+                    print(f"YA EXISTE PEM {dest.name} (origen cifrado, no se reconvierte)")
+                    continue
             print(f"PASSPHRASE requerida ({enc}): {src_path.name} -> no convertida")
             continue
 

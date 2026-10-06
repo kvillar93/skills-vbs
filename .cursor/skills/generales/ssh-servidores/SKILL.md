@@ -153,6 +153,8 @@ ssh -o BatchMode=yes bmcvmod "whoami && hostname"
 
 `bmcvmod-test` usa la misma PEM y el usuario `kvillar` en `34.57.162.99`. En la prueba de octubre 2026 el puerto 22 no contestó. La passphrase del `.ppk` original no se escribe en esta skill. En Cloud Agent hace falta el documento `private_odoo` en el vault `SSH-Infra`; hoy la PEM está solo en este PC.
 
+La operación del cliente (sync de facturas, sucursales relacionadas y reemisión intercompañía) está en la skill `bmcargo`.
+
 ## Claves y vault
 
 PEM locales: `C:/Users/kevin/.ssh/` (`vbsolutions`, `odoo_xolver`, `externo`, `OdooEPX`, `fpaxv3`, `umbrafinance`, `vvl`, `private_odoo`).

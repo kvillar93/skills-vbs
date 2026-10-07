@@ -47,6 +47,7 @@ Set-Junction (Join-Path $DestRoot "clonar-ec2-odoo") (Join-Path $SkillsSrc "proy
 Set-Junction (Join-Path $DestRoot "ssh-infra") (Join-Path $SkillsSrc "proyectos\odoo\ssh-infra")
 Set-Junction (Join-Path $DestRoot "trek-vbs") (Join-Path $SkillsSrc "proyectos\trek-vbs\trek-vbs")
 Set-Junction (Join-Path $DestRoot "manual-pdf-cliente") (Join-Path $SkillsSrc "generales\manual-pdf-cliente")
+Set-Junction (Join-Path $DestRoot "descarga-temporal-vbs") (Join-Path $SkillsSrc "generales\descarga-temporal-vbs")
 
 Get-ChildItem (Join-Path $Repo ".cursor\rules\*.mdc") -ErrorAction SilentlyContinue | ForEach-Object {
     Copy-Item $_.FullName (Join-Path $RulesDest $_.Name) -Force

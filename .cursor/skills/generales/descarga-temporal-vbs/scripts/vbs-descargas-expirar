@@ -1,0 +1,3 @@
+#!/bin/bash
+# Borra descargas de vbsolutions.app con mas de 30 minutos.
+find /var/www/descargas -type f -mmin +30 -delete

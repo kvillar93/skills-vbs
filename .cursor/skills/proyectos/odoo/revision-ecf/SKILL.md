@@ -36,7 +36,7 @@ Reglas que mandan: `addonsEP16/.cursor/rules/no-subir-servidor.mdc` (desplegar *
 | rm-tech | addonsCE14 | rm | commits de merge locales → pull **merge** |
 | proyesdo | addonsCE14 | proyesdo | |
 | infracero | addonsCE14 | infracero | |
-| jm-ss | addonsEP16 | jm | `vbs_mcp` sin versionar en el server: el pull choca |
+| jm-ss | addonsEP16 | jm | tiene `.bak` sin versionar (no chocan) |
 | aromelia | addonsEP16 | aromelia | |
 | joseda | addonsEP16 | joseda (+ alofoke) | sin `l10n_do_ecf_reprocess` |
 

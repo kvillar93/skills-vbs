@@ -196,7 +196,7 @@ El diario sale de `BancoID` + moneda (`_get_payment_journal`). Desde el 13 de oc
 
 Para publicar uno que ya quedo con el diario 62: con el codigo nuevo, `_get_payment_journal` devuelve el 1018. Crea el `account.payment` inbound con `payment_invoice_ids` del detalle (solo si la factura esta `posted` y el residual cubre el `neto`), `action_post`, enlaza `payment_id`, marca `is_processed_payment` y llama `_reconcile_additional_invoices`. Commit solo si el pago queda `posted`, el diario es 1018, el monto cuadra y el residual de la factura bajo en ese neto. No reactive la cuenta deprecada ni cambies el diario 62. No llames `create_payments()` del sync entero solo para reintentar uno: al final recorre residuales de todos los pagos del dia.
 
-Caso 2026-09-23, sync 15050: `IG02-3381026` (GRUPO JEN SRL, 3,250 DOP, detalle `FT02-3427249`) quedo en `BHD2/2026/4797`, factura `INV/2026/146575` en `in_payment`. El otro del mismo dia con el mismo fallo, sin crear: `IG02-3381021` (Cecomsa, 20,766.40 contra `FT02-3427210`, residual mayor). Hay mas `BHD` (no `BHD-LEON`) de otros dias en el mismo estado; no los publiques en lote si el pedido es uno.
+Los cobros `BHD` de septiembre 2026 que habian quedado sin publicar ya se crearon en el diario 1018 (entre ellos `IG02-3381026` en `BHD2/2026/4797` y `IG02-3381021`, parcial, residual 6,000). El de octubre, `IG02-3386086` (7,105 DOP, factura `INV/2026/141938`), quedo en `BHD2/2026/4818`.
 
 Un documento `RB` / `VDRB` es otra cosa: la factura de avances a gastos reembolsables va a la cuenta `11100101`. No la confundas con un cobro `IG`.
 

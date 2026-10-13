@@ -1,0 +1,1 @@
+\copy (select m.l10n_do_ecf_reception_state st, count(*), left(regexp_replace(coalesce(m.l10n_do_ecf_reception_error,''),'\s+',' ','g'),230) err from account_move m where m.l10n_do_ecf_reception_last_attempt >= '__DESDE__' group by 1,3 order by 2 desc limit 25) to stdout csv

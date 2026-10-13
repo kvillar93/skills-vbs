@@ -1,0 +1,1 @@
+\copy (select left(regexp_replace(regexp_replace(regexp_replace(mm.body,'<[^>]+>',' ','g'),'\s+',' ','g'),'.*Último error: ',''),170) err, count(*) from mail_message mm where mm.model='account.move' and mm.subject='Envío del e-CF al cliente sin éxito' and mm.date >= '__DESDE__' group by 1 order by 2 desc) to stdout csv

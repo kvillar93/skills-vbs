@@ -1,0 +1,4 @@
+# Los scripts se envían a servidores Linux por ssh stdin: siempre LF
+*.sh text eol=lf
+*.sql text eol=lf
+*.py text eol=lf

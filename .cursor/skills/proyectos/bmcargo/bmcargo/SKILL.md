@@ -1,11 +1,12 @@
 ﻿---
 name: bmcargo
 description: >-
-  Opera BMCargo en bmcvmod (Odoo 16, base bmc): sync de facturas desde SQL
-  Server (sync_objects / sync_objects_vbs) y facturas cruzadas entre la
-  empresa madre y las agencias (account_inter_company_vbs). Usar al mencionar
-  bmcvmod, BMCargo, BUSINESS MAIL & CARGO, San Juan, Barahona, sucursales
-  relacionadas, reemision de facturas o facturas de proveedor entre companias.
+  Opera BMCargo en bmcvmod (Odoo 16, base bmc): sync de facturas y cobros
+  (ingresos IG) desde SQL Server (sync_objects / sync_objects_vbs) y facturas
+  cruzadas entre la empresa madre y las agencias (account_inter_company_vbs).
+  Usar al mencionar bmcvmod, BMCargo, BUSINESS MAIL & CARGO, Piantini, San Juan,
+  Barahona, sucursales relacionadas, reemision de facturas o facturas de
+  proveedor entre companias.
 ---
 
 # BMCargo (bmcvmod)
@@ -41,7 +42,7 @@ No los mezcles.
 
 | Modulo | Trabajo |
 |---|---|
-| `sync_objects` + `sync_objects_vbs` | Trae facturas y pagos del SQL Server de BMC a Odoo. Modelo `sync.object`. El wizard `sync.invoice.resync.wizard` vuelve a leer numeros `NumeroFT` que faltan en Odoo. |
+| `sync_objects` + `sync_objects_vbs` | Trae facturas (`VDFT`) y cobros (`VDIG`, numero `IG`) del SQL Server de BMC a Odoo. Modelo `sync.object`. El wizard `sync.invoice.resync.wizard` vuelve a leer numeros `NumeroFT` que faltan en Odoo. Un ingreso no se reemite con ese wizard. |
 | `account_inter_company_vbs` | Al confirmar una factura, si el contacto es una compania o esta en **Sucursales relacionadas**, crea la factura inversa en la otra compania. |
 
 La reemision de una factura que ya existe en la madre y falta como factura de proveedor en la agencia es el segundo modulo. El wizard de resync no sirve para eso: la factura de cliente ya esta en Odoo.
@@ -185,10 +186,30 @@ Solo si el NumeroFT no existe como factura en Odoo. El `sync.object` de esa fech
 
 La conexion SQL Server sale de `ir.config_parameter` (`sync_objects.sync_host` y el resto). No imprimas el password ni el valor de `sync_objects.sync_passw`.
 
+## Ingreso (cobro IG) que no se publico
+
+Piantini es **PIANTINI BM CARGO SRL** (id 1). Un `IG` (`DocumentoID` `VDIG`) es `sync.payment`, no una factura nueva. La factura a conciliar esta en `sync.payment.lines` (`no_factura`, `neto`, `invoice_id`).
+
+`create_payments` solo crea filas sin `payment_id` y sin `nota_credito_id`, con `amount_applied > 0` o `es_nc`. Si el sync ya esta `close`, el cobro puede seguir sin pago. No llames `create_payments()` del sync entero para uno solo: recorre todos los pendientes y al final deja el sync en `close`. No uses `action_reexecute_payment`: cancela el pago que ya existe.
+
+El diario sale de `BancoID` + moneda (`_get_payment_journal`). En Piantini, DOP:
+
+| BancoID | Diario | Resultado |
+|---|---|---|
+| `BHD-LEON` | 1018 Banco BHD DOP - 38220620019 (cuenta `11010221`) | Se publica. El asiento debita el recibo pendiente del banco y acredita CxC. La factura queda `in_payment` con residual 0. |
+| `BHD` | Cae al 62 Transferencia (USD, cuenta `1101020012` deprecada). No hay diario con forma `BHD` y moneda DOP; el de forma `BHD` es el USD (id 1019). | `create_payments` deja el log `The account Transferencia (1101020012) is deprecated` y `payment_id` vacio. |
+
+Para publicar uno que fallo por eso: en ese `sync.payment` pon `journal_id` 1018, crea el `account.payment` inbound con `payment_invoice_ids` del detalle (solo si la factura esta `posted` y el residual cubre el `neto`), `action_post`, enlaza `payment_id`, marca `is_processed_payment` y llama `_reconcile_additional_invoices`. Commit solo si el pago queda `posted`, el diario es 1018, el monto cuadra y el residual de la factura bajo en ese neto. No reactive la cuenta deprecada ni cambies el diario 62.
+
+Caso 2026-09-23, sync 15050: `IG02-3381026` (GRUPO JEN SRL, 3,250 DOP, detalle `FT02-3427249`) quedo en `BHD2/2026/4797`, factura `INV/2026/146575` en `in_payment`. El otro del mismo dia con el mismo fallo, sin crear: `IG02-3381021` (Cecomsa, 20,766.40 contra `FT02-3427210`, residual mayor). Hay mas `BHD` (no `BHD-LEON`) de otros dias en el mismo estado; no los publiques en lote si el pedido es uno.
+
+Un documento `RB` / `VDRB` es otra cosa: la factura de avances a gastos reembolsables va a la cuenta `11100101`. No la confundas con un cobro `IG`.
+
 ## Que no hacer
 
 - No reemitir con el wizard de resync una factura que ya esta en la madre.
 - No confirmar otra vez la factura de la madre para disparar la intercompania: ya esta `posted` y un segundo `_post` no rehace el enlace.
 - No insertes `account_move` por SQL.
+- No canceles un cobro ya publicado. `action_reexecute_payment` lo cancela y lo recrea.
 - No toques facturas de Bani u otra sucursal si el pedido es solo Barahona. Antes del lote, agrupa por `partner_id` y ensena cuantas faltan.
 - Logs de Odoo: `sudo ls -lh` y `sudo tail -c`, nunca `grep` del archivo completo.

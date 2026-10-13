@@ -37,7 +37,7 @@ Reglas que mandan: `addonsEP16/.cursor/rules/no-subir-servidor.mdc` (desplegar *
 | proyesdo | addonsCE14 | proyesdo | |
 | infracero | addonsCE14 | infracero | |
 | jm-ss | addonsEP16 | jm | `vbs_mcp` sin versionar en el server: el pull choca |
-| aromelia | addonsEP16 | aromelia | cron envío a clientes cada 1 min |
+| aromelia | addonsEP16 | aromelia | |
 | joseda | addonsEP16 | joseda (+ alofoke) | sin `l10n_do_ecf_reprocess` |
 
 Ampliar la lista si el usuario agrega instancias. Inventario completo: `ssh-servidores/hosts.md`.
@@ -101,6 +101,8 @@ ssh <alias> "bash -i /tmp/reiniciar.sh"
 ssh <alias> "bash -s -- '<inicio UTC>'" < scripts/verificar_odoo.sh   # servicio, HTTP 200, errores desde el reinicio
 ```
 Solo reiniciar si `SINTAXIS_OK|1`. Tras desplegar, activar si hace falta el cron "Enviar Facturas ECF Aprobadas a Clientes" (no el de "Aprobación Comercial", que no aplica al emisor).
+
+El cron "Enviar Facturas ECF Aprobadas a Clientes" va **cada 15 minutos** y el código espera 15 min (840 s) entre intentos, máximo 3. El data es `noupdate`: en bases existentes ajustar `ir_cron` (`interval_number=15`) por SQL.
 
 ## Paso 5 — Reporte
 

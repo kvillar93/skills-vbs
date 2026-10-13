@@ -190,16 +190,11 @@ La conexion SQL Server sale de `ir.config_parameter` (`sync_objects.sync_host` y
 
 Piantini es **PIANTINI BM CARGO SRL** (id 1). Un `IG` (`DocumentoID` `VDIG`) es `sync.payment`, no una factura nueva. La factura a conciliar esta en `sync.payment.lines` (`no_factura`, `neto`, `invoice_id`).
 
-`create_payments` solo crea filas sin `payment_id` y sin `nota_credito_id`, con `amount_applied > 0` o `es_nc`. Si el sync ya esta `close`, el cobro puede seguir sin pago. No llames `create_payments()` del sync entero para uno solo: recorre todos los pendientes y al final deja el sync en `close`. No uses `action_reexecute_payment`: cancela el pago que ya existe.
+`create_payments` solo crea filas sin `payment_id` y sin `nota_credito_id`, con `amount_applied > 0` o `es_nc`. Si el sync ya esta `close`, el cron de cada 30 minutos no lo retoma. No uses `action_reexecute_payment`: cancela el pago que ya existe.
 
-El diario sale de `BancoID` + moneda (`_get_payment_journal`). En Piantini, DOP:
+El diario sale de `BancoID` + moneda (`_get_payment_journal`). Desde el 13 de octubre de 2026, si la forma exacta no tiene diario en esa moneda, busca una forma que contenga el BancoID y la misma moneda. En Piantini, `BHD` + DOP resuelve al 1018 (`BHD-LEON`, cuenta `11010221`). No usa un diario de otra moneda ni uno con cuenta deprecada. Si el `journal_id` ya guardado no sirve, `create_payments` lo recalcula. Si queda un cobro con monto mayor a cero, sin `payment_id` y sin `nota_credito_id`, el sync se queda en `to_payment` para que el cron lo reintente. Antes, `BHD` + DOP caia al diario 62 Transferencia (USD, cuenta `1101020012` deprecada) y el sync igual pasaba a `close`.
 
-| BancoID | Diario | Resultado |
-|---|---|---|
-| `BHD-LEON` | 1018 Banco BHD DOP - 38220620019 (cuenta `11010221`) | Se publica. El asiento debita el recibo pendiente del banco y acredita CxC. La factura queda `in_payment` con residual 0. |
-| `BHD` | Cae al 62 Transferencia (USD, cuenta `1101020012` deprecada). No hay diario con forma `BHD` y moneda DOP; el de forma `BHD` es el USD (id 1019). | `create_payments` deja el log `The account Transferencia (1101020012) is deprecated` y `payment_id` vacio. |
-
-Para publicar uno que fallo por eso: en ese `sync.payment` pon `journal_id` 1018, crea el `account.payment` inbound con `payment_invoice_ids` del detalle (solo si la factura esta `posted` y el residual cubre el `neto`), `action_post`, enlaza `payment_id`, marca `is_processed_payment` y llama `_reconcile_additional_invoices`. Commit solo si el pago queda `posted`, el diario es 1018, el monto cuadra y el residual de la factura bajo en ese neto. No reactive la cuenta deprecada ni cambies el diario 62.
+Para publicar uno que ya quedo con el diario 62: con el codigo nuevo, `_get_payment_journal` devuelve el 1018. Crea el `account.payment` inbound con `payment_invoice_ids` del detalle (solo si la factura esta `posted` y el residual cubre el `neto`), `action_post`, enlaza `payment_id`, marca `is_processed_payment` y llama `_reconcile_additional_invoices`. Commit solo si el pago queda `posted`, el diario es 1018, el monto cuadra y el residual de la factura bajo en ese neto. No reactive la cuenta deprecada ni cambies el diario 62. No llames `create_payments()` del sync entero solo para reintentar uno: al final recorre residuales de todos los pagos del dia.
 
 Caso 2026-09-23, sync 15050: `IG02-3381026` (GRUPO JEN SRL, 3,250 DOP, detalle `FT02-3427249`) quedo en `BHD2/2026/4797`, factura `INV/2026/146575` en `in_payment`. El otro del mismo dia con el mismo fallo, sin crear: `IG02-3381021` (Cecomsa, 20,766.40 contra `FT02-3427210`, residual mayor). Hay mas `BHD` (no `BHD-LEON`) de otros dias en el mismo estado; no los publiques en lote si el pedido es uno.
 

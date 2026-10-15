@@ -72,6 +72,7 @@ Actualizar extras más adelante (sí puede sobrescribir las extras, no las VBS):
 | Chatwoot VBS | `chatwoot-vbs` |
 | Workspace Odoo (rules, iconos, restaurar en otra PC) | `odoo` (carpeta `proyectos/odoo`) |
 | Facturas en borrador de Lifter (confirmar y enviar por correo, día 2) | `facturas-borrador-lifter` |
+| Alta de compañía en Odoo (ICA y similares: asistente, logo, tasas, bancos) | `crear-compania-odoo` |
 | BMCargo / bmcvmod (sync SQL, sucursales, reemisión intercompañía) | `bmcargo` |
 | Clonar o crear un servidor EC2 de Odoo (DNS y SSL) | `clonar-ec2-odoo` |
 | Icono de módulo Odoo 16 | `odoo-module-icon` |

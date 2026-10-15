@@ -42,6 +42,7 @@ Set-Junction (Join-Path $DestRoot "chatwoot-vbs") (Join-Path $SkillsSrc "proyect
 Set-Junction (Join-Path $DestRoot "odoo") (Join-Path $SkillsSrc "proyectos\odoo\odoo")
 Set-Junction (Join-Path $DestRoot "odoo-module-icon") (Join-Path $SkillsSrc "proyectos\odoo\odoo-module-icon")
 Set-Junction (Join-Path $DestRoot "facturas-borrador-lifter") (Join-Path $SkillsSrc "proyectos\odoo\facturas-borrador-lifter")
+Set-Junction (Join-Path $DestRoot "crear-compania-odoo") (Join-Path $SkillsSrc "proyectos\odoo\crear-compania-odoo")
 Set-Junction (Join-Path $DestRoot "bmcargo") (Join-Path $SkillsSrc "proyectos\bmcargo\bmcargo")
 Set-Junction (Join-Path $DestRoot "clonar-ec2-odoo") (Join-Path $SkillsSrc "proyectos\odoo\clonar-ec2-odoo")
 Set-Junction (Join-Path $DestRoot "ssh-infra") (Join-Path $SkillsSrc "proyectos\odoo\ssh-infra")

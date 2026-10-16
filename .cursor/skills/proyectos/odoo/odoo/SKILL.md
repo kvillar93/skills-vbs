@@ -38,6 +38,7 @@ Rules incluidas:
 - `odoo-project-structure.mdc`
 - `persona-context.mdc`
 - `server-configuration.mdc`
+- `odoo-cambio-en-servidor.mdc`
 
 ## Restaurar en otra PC (workspace `/odoo`)
 

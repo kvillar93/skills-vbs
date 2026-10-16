@@ -1,0 +1,23 @@
+---
+description: Al pedir un cambio en un servidor Odoo, commitear en el repo, pull en el server y restart_odoo.
+alwaysApply: true
+---
+
+# Cambio en servidor Odoo
+
+Si **este chat** pide aplicar, subir, desplegar o corregir algo en un servidor Odoo (Abitare, Lifter, aromelia, clientes `*.lifterdo.com`, etc.):
+
+1. El cambio va en el repo de ese servidor (casi siempre **addonsEP16**). Commit y push a la rama que el server sigue (`master`, salvo que el chat diga otra).
+2. En el servidor, entra con la skill `ssh-servidores` y haz `git pull` en el clone de addons (`/odoo/custom/addons/addonsEP16` o el que use ese host). No dejes el arreglo solo en local ni lo copies con `scp`.
+3. Reinicia con el alias `restart_odoo` de `~/.bashrc`, en bash interactivo y en dos pasos, como dice `ssh-servidores`. No uses `systemctl restart odoo-server` por tu cuenta.
+4. Si el cambio toca XML, datos, vistas o seguridad, actualiza el módulo (`-u`) con el servicio detenido, y después `restart_odoo`. Si es solo Python, basta el reinicio tras el pull.
+5. Confirma que el servicio quedó `active`.
+
+Sin un pedido de despliegue en este chat, no subas nada al servidor. El destino del código sigue siendo el repo.
+
+```text
+# BIEN (el chat pidió el cambio en el server)
+commit + push en addonsEP16
+ssh <alias> git pull
+restart_odoo
+```

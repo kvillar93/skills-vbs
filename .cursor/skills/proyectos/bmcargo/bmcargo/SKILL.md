@@ -51,12 +51,13 @@ La reemision de una factura que ya existe en la madre y falta como factura de pr
 
 La madre que factura a las agencias es **BUSINESS MAIL & CARGO SRL** (id 2, RNC `101668695`). Las agencias son otras `res.company` con `rule_type = invoice_and_refund`.
 
-San Juan es **AGENCIA BMC SAN JUAN DE LA MAGUANA** (id 20, RNC `132557018`). En Sucursales relacionadas tiene, entre otros:
+San Juan es **AGENCIA BMC SAN JUAN DE LA MAGUANA** (id 20, RNC `132557018`). En Sucursales relacionadas tiene:
 
 | partner_id | Contacto | Para que sirve |
 |---|---|---|
 | 127428 | Agencia Bmc Barahona (SAN JUAN BM CARGO, SRL) | Mismo RNC `132557018`. Facturas de BMC a este contacto deben nacer como `in_invoice` en San Juan. |
-| 11030 | AGENCIA BMC BANI (TPL Trade Protect Logistics, SRL) | Igual, hacia San Juan. |
+
+Bani es **BANI BM CARGO SRL** (id 31, RNC `133478511`, partner de la compania `127508`, alta 2026-09-16). El contacto que usa la sincronizacion sigue siendo el viejo **AGENCIA BMC BANI (TPL Trade Protect Logistics, SRL)** (partner `11030`, RNC `132072936`). Desde el 22 de octubre de 2026 ese partner esta en Sucursales relacionadas de Bani, no de San Juan. Las facturas de BMC a `11030` deben nacer como `in_invoice` en Bani.
 
 El RNC del encabezado de un estado de Barahona puede ser el de San Juan. El contacto de la factura es Barahona; la compania que recibe la factura de proveedor es San Juan.
 

@@ -8,9 +8,9 @@ alwaysApply: true
 Si **este chat** pide aplicar, subir, desplegar o corregir algo en un servidor Odoo (Abitare, Lifter, aromelia, clientes `*.lifterdo.com`, etc.):
 
 1. El cambio va en el repo de ese servidor (casi siempre **addonsEP16**). Commit y push a la rama que el server sigue (`master`, salvo que el chat diga otra).
-2. En el servidor, entra con la skill `ssh-servidores` y haz `git pull` en el clone de addons (`/odoo/custom/addons/addonsEP16` o el que use ese host). No dejes el arreglo solo en local ni lo copies con `scp`.
+2. En el servidor, entra con la skill `ssh-servidores` y haz `git pull` **completo** en el clone de addons (`/odoo/custom/addons/addonsEP16` o el que use ese host). El servidor tiene que quedar en el mismo commit que la rama del repo. No dejes el arreglo solo en local, no lo copies con `scp` y no hagas cherry-pick de un solo commit si eso deja el servidor atrás.
 3. Reinicia con el alias `restart_odoo` de `~/.bashrc`, en bash interactivo y en dos pasos, como dice `ssh-servidores`. No uses `systemctl restart odoo-server` por tu cuenta.
-4. Si el cambio toca XML, datos, vistas o seguridad, actualiza el módulo (`-u`) con el servicio detenido, y después `restart_odoo`. Si es solo Python, basta el reinicio tras el pull.
+4. Si el pull trae campos nuevos (u otro cambio de esquema, XML, datos, vistas o seguridad) en módulos **instalados**, actualiza solo esos módulos (`-u`) con el servicio detenido, y después `restart_odoo`. Revisa el arranque. Si es solo Python de un módulo ya cargado, basta el reinicio tras el pull.
 5. Confirma que el servicio quedó `active`.
 
 Sin un pedido de despliegue en este chat, no subas nada al servidor. El destino del código sigue siendo el repo.

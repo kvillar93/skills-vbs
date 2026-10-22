@@ -78,6 +78,7 @@ Nunca: pegar PEM, `.ppk`, contraseñas, `config.yaml` de Tabby ni el token. Si a
 
 ## Reglas
 
+- Si este chat pide subir un cambio a un Odoo, el `git pull` del clone de addons es **completo**: el servidor queda en el mismo commit que la rama del repo. No cherry-pick de un solo commit que deje el host atrás. Si ese pull trae campos nuevos en módulos instalados, `-u` solo de esos módulos con el servicio detenido y después `restart_odoo`.
 - Preferir este SSH frente al MCP de Tabby. Tabby solo si SSH falla o el usuario lo pide.
 - `BatchMode=yes` en clave publica.
 - `bmcvmod`: `ssh bmcvmod` con `~/.ssh/private_odoo`. Ver [bmcvmod (BMCargo)](#bmcvmod-bmcargo).

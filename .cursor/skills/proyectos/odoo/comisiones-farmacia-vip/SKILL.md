@@ -201,4 +201,6 @@ Con la cédula ya igual en Zempac, el botón **Calcular** refresca facturadores 
 
 `_sincronizar_empleados` sigue comparando la cédula carácter por carácter y no pisa un `employee_id` ya puesto. Un guion en Zempac deja el facturador sin empleado hasta el próximo Calcular, después de quitarlo.
 
-El `master` de este servidor iba atrás de GitHub (22 oct 2026: unos 418 commits, ninguno en `comisiones_zempac`). El arreglo está en `master` de `addonsCE14` (`966a5f494`) y en el servidor se aplicó con cherry-pick (`444525c51`), sin traer el resto de `master`. Un `git pull` aquí mezclaría esos cientos de commits.
+En la carga (`_procesar_facturadores`, después de leer el SQL) la cédula se guarda sin guiones. El archivo `Facturadores.sql` no se modifica. `_sincronizar_empleados` sigue comparando el texto exacto y no pisa un `employee_id` ya puesto.
+
+El pull de addons en este host es completo: el servidor queda en el mismo commit que `master`. Si ese pull trae campos nuevos de módulos instalados, `-u` solo de esos, con el servicio detenido.

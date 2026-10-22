@@ -55,7 +55,9 @@ Estados de la hoja: `borrador`, `en_proceso`, `finalizado`, `cancelado`. El cron
 No los mezcles cuando digan «no está halando».
 
 1. **Halar empleados** (`action_actualizar_empleados`). Borra las líneas y vuelve a crearlas según el puesto y `hr.department.modo_carga_empleados`. No trae ventas.
-2. **Calcular** (`action_calcular` → `_calcular_ventas_y_metas_sucursal`). Para cada línea de Dependientes busca facturadores con `employee_id` = ese empleado y suma `total_venta_neta` entre `fecha_inicio` y `fecha_fin`. No filtra por sucursal en la línea de la persona.
+2. **Calcular** (`action_calcular`). Primero corre la consulta **Facturadores** (`comision.consulta.config` tipo `facturadores`, hoy id 3) una sola vez en la petición y vuelve a ligar empleados por cédula exacta. Después, por cada hoja, `_calcular_hoja` suma `total_venta_neta` de los facturadores ya ligados, entre `fecha_inicio` y `fecha_fin`. No filtra por sucursal en la línea de la persona.
+
+El cron diario (`_ejecutar_actualizacion_diaria` y la creación mensual) llama `_calcular_hoja` y no refresca facturadores. «Calcular Masivamente» sigue en bucle, pero la marca en `env.all` hace que la consulta a Zempac salga una vez por clic.
 
 Un empleado puede estar en la hoja con ventas 0. Eso significa que el paso 1 sí corrió y el paso 2 no le encontró facturador ligado.
 
@@ -167,11 +169,11 @@ WHERE f.activo AND f.employee_id IS NULL
 
 ## Caso CAL-00545 (22 oct 2026)
 
-JUANA IRIS GONZALEZ RODRIGUEZ, empleado `7887`, cédula `00118866375`, departamento `243` VIP-19 (CRISTO REY), puesto `766` SUB ENCARGADO (`es_sub_encargado`, `tipo_calculo = encargados_subencargados`). Aprobada y activa. La hoja `545` (1–31 oct 2026, `en_proceso`) ya la tiene en sucursal, canjes, incentivos y encargados. `ventas_netas = 0`, meta de línea `355000`.
+JUANA IRIS GONZALEZ RODRIGUEZ, empleado `7887`, cédula `00118866375`, departamento `243` VIP-19 (CRISTO REY), puesto `766` SUB ENCARGADO (`es_sub_encargado`, `tipo_calculo = encargados_subencargados`). Aprobada y activa. La hoja `545` (1–31 oct 2026) ya la tenía en sucursal, canjes, incentivos y encargados. La meta de línea es `355000`.
 
-Facturador Zempac NIR `1582` es `zempacconsulta.facturadores` id `982`, sucursal `19`, cédula `001-1886637-5`, `employee_id` vacío. Los dígitos son los mismos. El sync no la ligó por los guiones.
+El facturador Zempac NIR `1582` (`zempacconsulta.facturadores` id `982`) llegó con cédula `001-1886637-5` y sin empleado. El 22 oct 2026, 5:32 p. m. (Santo Domingo), `action_calcular` sobre el CAL-00545 releyó Zempac: la cédula quedó `00118866375`, el empleado `7887` y `ventas_netas` **260,309.02** (30 puntos).
 
-Ventas de ese facturador del 1 al 21 oct 2026: **260,309.02**. Es el mismo monto del listado de comisión por facturador de Zempac. El total de sucursal del CAL, **664,755.03**, cuadra con el total de ese listado: las ventas de Juana están dentro del total y no en su línea.
+Antes de ese cálculo el total de sucursal del CAL, **664,755.03**, ya cuadraba con el listado de Zempac: las ventas estaban en el total y no en su línea.
 
 Ana María Cordero (`880`, cédula sin guiones, empleado `5843`) y Caroline Milagros Pronk (`1513`, empleado `7729`) sí ligan y sus ventas de línea cuadran.
 
@@ -195,6 +197,8 @@ El CAL usa `zempacconsulta.sucursales.department_id`, no el char del departament
 
 ## Si piden corregirlo
 
-Datos, sin código: poner `employee_id` del facturador (en Juana, `982` → `7887`) y después `action_calcular` en la hoja. Ligar solo no rellena `ventas_netas`. Calcular reescribe incentivos de todo el departamento.
+Con la cédula ya igual en Zempac, el botón **Calcular** refresca facturadores y rellena la línea. Reescribe incentivos de todo el departamento.
 
-Código, si piden que el sync deje de fallar con guiones: en `comisiones_zempac/models/zempac_facturadores.py`, `_sincronizar_empleados` debe comparar solo dígitos y seguir sin pisar un `employee_id` ya puesto. El cambio va al repo `addonsCE14` y, solo si este chat lo pide, `git pull` en el servidor y `restart_odoo` como dice `ssh-servidores`.
+`_sincronizar_empleados` sigue comparando la cédula carácter por carácter y no pisa un `employee_id` ya puesto. Un guion en Zempac deja el facturador sin empleado hasta el próximo Calcular, después de quitarlo.
+
+El `master` de este servidor iba atrás de GitHub (22 oct 2026: unos 418 commits, ninguno en `comisiones_zempac`). El arreglo está en `master` de `addonsCE14` (`966a5f494`) y en el servidor se aplicó con cherry-pick (`444525c51`), sin traer el resto de `master`. Un `git pull` aquí mezclaría esos cientos de commits.

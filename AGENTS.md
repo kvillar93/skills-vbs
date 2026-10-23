@@ -6,6 +6,7 @@ Este repositorio es el **origen** de las skills de VB Solutions. Si editas una s
 - Crear carpetas, updates y sync: skill `mantener-skills-vbs`
 - SSH / Cloud Agents: `generales/ssh-servidores`
 - TREK (host Docker + trek.vbsolutions.app): `proyectos/trek-vbs`
+- Collado (Odoo 14, addonsce14_collado): `proyectos/collado`
 - No pegues PEM, tokens ni `.env` en el chat ni en commits.
 
 En PCs locales, tras `scripts/instalar.ps1`, `~/.cursor/skills` apunta aquí (junction). Editar la skill **es** editar el repo.

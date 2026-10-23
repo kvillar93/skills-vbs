@@ -75,6 +75,7 @@ Actualizar extras más adelante (sí puede sobrescribir las extras, no las VBS):
 | Incentivos / comisiones de Farmacia VIP (Zempac, CAL-, ventas que no salen) | `comisiones-farmacia-vip` |
 | Alta de compañía en Odoo (ICA y similares: asistente, logo, tasas, bancos) | `crear-compania-odoo` |
 | BMCargo / bmcvmod (sync SQL, sucursales, reemisión intercompañía) | `bmcargo` |
+| Collado (collado.vbsolutions.app, pedidos del POS, anular factura y rehacer) | `collado` |
 | Clonar o crear un servidor EC2 de Odoo (DNS y SSL) | `clonar-ec2-odoo` |
 | Icono de módulo Odoo 16 | `odoo-module-icon` |
 | PEM de SSH-Infra en Linux (`~/.ssh/infra`, nunca en git) | `ssh-infra` |

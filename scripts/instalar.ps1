@@ -44,6 +44,7 @@ Set-Junction (Join-Path $DestRoot "odoo-module-icon") (Join-Path $SkillsSrc "pro
 Set-Junction (Join-Path $DestRoot "facturas-borrador-lifter") (Join-Path $SkillsSrc "proyectos\odoo\facturas-borrador-lifter")
 Set-Junction (Join-Path $DestRoot "crear-compania-odoo") (Join-Path $SkillsSrc "proyectos\odoo\crear-compania-odoo")
 Set-Junction (Join-Path $DestRoot "bmcargo") (Join-Path $SkillsSrc "proyectos\bmcargo\bmcargo")
+Set-Junction (Join-Path $DestRoot "collado") (Join-Path $SkillsSrc "proyectos\collado\collado")
 Set-Junction (Join-Path $DestRoot "clonar-ec2-odoo") (Join-Path $SkillsSrc "proyectos\odoo\clonar-ec2-odoo")
 Set-Junction (Join-Path $DestRoot "ssh-infra") (Join-Path $SkillsSrc "proyectos\odoo\ssh-infra")
 Set-Junction (Join-Path $DestRoot "trek-vbs") (Join-Path $SkillsSrc "proyectos\trek-vbs\trek-vbs")

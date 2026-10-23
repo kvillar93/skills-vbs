@@ -18,6 +18,7 @@ Repo: https://github.com/kvillar93/skills-vbs
     chatwoot-vbs/            # Chatwoot VBS
     odoo/                    # Workspace Odoo: rules, iconos, ssh-infra
     trek-vbs/                # Host Docker + TREK (trek.vbsolutions.app)
+    collado/                 # Collado, Odoo 14, pedidos compartidos del POS
   extras/
     addyosmani/              # 25 skills de ingeniería (opt-in por repo)
     ui-ux-pro-max/           # pack UI/UX (opt-in por repo; cada carpeta tiene SKILL.md)
